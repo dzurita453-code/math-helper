@@ -1,0 +1,1672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Math Competition Trainer</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #08080d; overflow-x: hidden; }
+  input:focus { border-color: #444 !important; }
+  button:active { opacity: 0.8; }
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: #08080d; }
+  ::-webkit-scrollbar-thumb { background: #222230; border-radius: 3px; }
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+</head>
+<body>
+<div id="root"></div>
+<script>
+"use strict";
+
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _createForOfIteratorHelper(r, e) { var t = "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (!t) { if (Array.isArray(r) || (t = _unsupportedIterableToArray(r)) || e && r && "number" == typeof r.length) { t && (r = t); var _n = 0, F = function F() {}; return { s: F, n: function n() { return _n >= r.length ? { done: !0 } : { done: !1, value: r[_n++] }; }, e: function e(r) { throw r; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var o, a = !0, u = !1; return { s: function s() { t = t.call(r); }, n: function n() { var r = t.next(); return a = r.done, r; }, e: function e(r) { u = !0, o = r; }, f: function f() { try { a || null == t["return"] || t["return"](); } finally { if (u) throw o; } } }; }
+function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
+function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
+function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(r); }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+var _React = React,
+  useState = _React.useState,
+  useEffect = _React.useEffect,
+  useRef = _React.useRef;
+
+// ─── LESSONS ─────────────────────────────────────────────────────────────────
+var LESSONS = {
+  algebra: [{
+    title: "Vieta's Formulas",
+    sections: [{
+      heading: "The Core Idea",
+      body: "Vieta's formulas let you find sums and products of polynomial roots WITHOUT solving the equation.\n\nFor a quadratic ax² + bx + c = 0 with roots r, s:\n  • r + s = −b/a\n  • r · s = c/a\n\nFor a cubic x³ + bx² + cx + d = 0 with roots r, s, t:\n  • r + s + t = −b\n  • rs + rt + st = c\n  • rst = −d\n\nThe pattern generalizes: the kth elementary symmetric polynomial of the roots equals (−1)ᵏ times the coefficient of xⁿ⁻ᵏ divided by the leading coefficient."
+    }, {
+      heading: "Worked Example",
+      body: "Problem: The roots of x² − 7x + 12 = 0 are r and s. Find r² + s².\n\nStep 1: Identify what Vieta's gives us:\n  r + s = 7,  rs = 12\n\nStep 2: We need r² + s², but Vieta's gives r+s and rs.\nUse the identity:  r² + s² = (r + s)² − 2rs\n\nStep 3: Substitute:\n  r² + s² = 7² − 2(12) = 49 − 24 = 25  ✓\n\n🔑 Key Insight: Newton's identities let you find ANY power sum pₖ = r₁ᵏ + r₂ᵏ + … from the elementary symmetric polynomials."
+    }, {
+      heading: "When to Use This",
+      body: "Look for these signals:\n  • \"The roots of a polynomial satisfy…\"\n  • Asked to find symmetric expressions (sums of squares, cubes, reciprocals)\n  • A system where individual values are hard but sum/product isn't\n\n⚠️ Common trap: Don't forget the sign! For x² + bx + c, the sum of roots is −b, not b.\n\n💡 Power move: If asked for 1/r + 1/s, rewrite as (r+s)/(rs) — purely in Vieta's terms!"
+    }],
+    practice: ["al1", "al3", "al5"]
+  }, {
+    title: "Absolute Value & Cases",
+    sections: [{
+      heading: "The Core Idea",
+      body: "|x| is the distance from x to 0 on the number line.\n\nFor equations |A| = |B|, there are exactly two cases:\n  Case 1: A = B\n  Case 2: A = −B\n\nFor inequalities:\n  |x| < a  ⟺  −a < x < a\n  |x| > a  ⟺  x < −a  or  x > a\n\nThink of absolute value as \"erasing the sign\" — it always asks: how far, not which direction?"
+    }, {
+      heading: "Worked Example",
+      body: "Problem: Solve |2x − 5| = |x + 1|.\n\nCase 1: 2x − 5 = x + 1  →  x = 6  ✓\nCase 2: 2x − 5 = −(x + 1)  →  3x = 4  →  x = 4/3  ✓\n\nVerify: |2(6)−5| = 7 = |7| ✓   |2(4/3)−5| = 7/3 = |7/3| ✓\n\n🔑 Shortcut: Square both sides!\n|A|² = |B|²  →  A² = B²  →  (A−B)(A+B) = 0\n(2x−5)² = (x+1)²  →  (x−6)(3x−4) = 0  →  x = 6 or 4/3"
+    }, {
+      heading: "Competition Shortcuts",
+      body: "• Squaring avoids casework entirely — use it when both sides are absolute values.\n• Geometric view: |x − a| = |x − b| means x is the midpoint of a and b.\n• For |A| + |B| = C, draw sign regions on the number line. In each region, remove the absolute values with appropriate signs.\n• Triangle inequality: |a + b| ≤ |a| + |b|, with equality when a,b have the same sign."
+    }],
+    practice: ["al2"]
+  }, {
+    title: "Simon's Favorite Factoring Trick",
+    sections: [{
+      heading: "The Core Idea",
+      body: "When you have an equation like xy + ax + by = c that's ALMOST factorable, add a constant to both sides:\n\n  xy + ax + by + ab = c + ab\n  (x + b)(y + a) = c + ab\n\nThis transforms a messy equation into a product of two factors — and products are great for finding integer solutions because you can list all factor pairs!"
+    }, {
+      heading: "Worked Example",
+      body: "Problem: Find all positive integer pairs (a, b) with 1/a + 1/b = 1/6.\n\nStep 1: Clear fractions → 6b + 6a = ab\nStep 2: Rearrange → ab − 6a − 6b = 0\nStep 3: Add 36 → (a − 6)(b − 6) = 36\nStep 4: For positive a,b satisfying the original, we need a > 6 and b > 6.\n  So (a−6) and (b−6) are positive divisors of 36.\nStep 5: 36 has divisors: 1,2,3,4,6,9,12,18,36 → 9 divisors.\n  Each gives an ordered pair → 9 pairs.\n\n🔑 The magic number to add is always the product of the coefficients of x and y in the rearranged equation."
+    }, {
+      heading: "Pattern Recognition",
+      body: "Trigger signals:\n  • \"Find all integer solutions to…\"\n  • \"How many ordered pairs (x,y)…\"\n  • Any equation mixing xy, x, and y terms\n  • Reciprocal equations: 1/a + 1/b = 1/n\n\nRelated technique: Completing the square is the same idea for a single variable. Both add something clever to make things factor.\n\nAdvanced: For 1/a + 1/b = 1/n, the trick always gives (a−n)(b−n) = n². The number of solutions is the number of (positive) divisor pairs of n²."
+    }],
+    practice: ["al6", "al7"]
+  }, {
+    title: "Inequalities & Optimization",
+    sections: [{
+      heading: "The Big Three",
+      body: "AM-GM Inequality:\n  For non-negative reals: (a₁+a₂+…+aₙ)/n ≥ (a₁·a₂·…·aₙ)^(1/n)\n  Equality when all values are equal.\n\nCauchy-Schwarz:\n  (a₁²+…+aₙ²)(b₁²+…+bₙ²) ≥ (a₁b₁+…+aₙbₙ)²\n  Equality when aᵢ/bᵢ is constant.\n\nPower Mean Inequality:\n  QM ≥ AM ≥ GM ≥ HM\n  (where HM = n/(1/a₁+…+1/aₙ))"
+    }, {
+      heading: "Worked Example",
+      body: "Problem: For positive reals with a + b = 1, minimize 1/a + 1/b.\n\nMethod 1 — Cauchy-Schwarz (Titu's Lemma):\n  1/a + 1/b = 1²/a + 1²/b ≥ (1+1)²/(a+b) = 4/1 = 4\n  Equality when a = b = 1/2.\n\nMethod 2 — AM-HM:\n  HM(a,b) = 2/(1/a+1/b) ≤ AM(a,b) = 1/2\n  → 1/a + 1/b ≥ 4.\n\nMethod 3 — Substitution:\n  Let b = 1−a. Minimize f(a) = 1/a + 1/(1−a).\n  f'(a) = −1/a² + 1/(1−a)² = 0  →  a = 1/2.\n  f(1/2) = 4."
+    }, {
+      heading: "Strategy Guide",
+      body: "Decision tree for optimization:\n  1. See \"minimize\" or \"maximum value\" → think inequalities\n  2. Have a constraint like a+b = constant → try AM-GM\n  3. Have a sum of fractions → try Cauchy-Schwarz (Titu's Lemma)\n  4. Nothing works → substitute the constraint and use calculus\n\n⚠️ Always check: did you verify the equality condition? That's where the optimum occurs.\n\n💡 AM-GM trick: To minimize a + b given ab = constant, or maximize ab given a + b = constant, AM-GM is instant."
+    }],
+    practice: ["al4", "al8"]
+  }],
+  combinatorics: [{
+    title: "Complementary Counting & Inclusion-Exclusion",
+    sections: [{
+      heading: "Complementary Counting",
+      body: "Instead of counting what you WANT, count what you DON'T want:\n\n  |Good| = |Total| − |Bad|\n\nThis is powerful when the \"bad\" cases are simpler. Signal words: \"at least,\" \"at most,\" \"no two consecutive.\"\n\nExample: P(at least one head in 5 flips) = 1 − P(all tails) = 1 − 1/32 = 31/32."
+    }, {
+      heading: "Inclusion-Exclusion",
+      body: "When conditions overlap:\n  |A ∪ B| = |A| + |B| − |A ∩ B|\n  |A ∪ B ∪ C| = |A|+|B|+|C| − |A∩B|−|A∩C|−|B∩C| + |A∩B∩C|\n\nWorked example: How many integers from 1–100 are divisible by 2 or 3?\n  Div by 2: ⌊100/2⌋ = 50\n  Div by 3: ⌊100/3⌋ = 33\n  Div by 6: ⌊100/6⌋ = 16\n  Answer: 50 + 33 − 16 = 67"
+    }, {
+      heading: "When to Use Which",
+      body: "Use complementary counting when:\n  • \"At least\" / \"at most\" / \"not all the same\"\n  • Direct counting has too many cases\n  • P(≥1) = 1 − P(0) is simpler\n\nUse inclusion-exclusion when:\n  • Multiple overlapping conditions\n  • \"Divisible by A or B or C\"\n  • Derangements, surjections\n  • You can compute each intersection easily"
+    }],
+    practice: ["co3", "co12"]
+  }, {
+    title: "Counting Techniques Toolkit",
+    sections: [{
+      heading: "Multinomial Coefficients",
+      body: "Arranging n objects with repeats:\n  n! / (n₁! · n₂! · … · nₖ!)\n\nBANANA = 6!/(3!·2!·1!) = 60\n\nThink: start with n! total arrangements, divide out overcounting from each identical group."
+    }, {
+      heading: "Stars and Bars",
+      body: "Distribute n identical items into k distinct bins:\n  C(n + k − 1, k − 1)\n\nWith minimums (each bin ≥ mᵢ): substitute xᵢ = yᵢ + mᵢ.\n\nExample: 10 identical balls in 3 boxes, each ≥ 2?\n  Remaining: 10 − 6 = 4 balls freely placed.\n  C(4+2, 2) = C(6,2) = 15."
+    }, {
+      heading: "Permutations vs Combinations",
+      body: "Does order matter?\n  YES → Permutations: P(n,k) = n!/(n−k)!\n  NO  → Combinations: C(n,k) = n!/(k!(n−k)!)\n\nCircular permutations: (n−1)!  (fix one to remove rotational symmetry)\n\nWith restrictions: often easiest to count total minus forbidden.\n\n💡 Useful identity: C(n,k) = C(n−1,k−1) + C(n−1,k)\nThis is Pascal's rule — builds Pascal's Triangle and powers many recurrences."
+    }],
+    practice: ["co1", "co5", "co7", "co11"]
+  }, {
+    title: "Recurrences & Catalan Numbers",
+    sections: [{
+      heading: "Building Recurrences",
+      body: "Technique:\n  1. Define f(n) = count for problem of size n\n  2. Look at the LAST element: what sub-problems does including/excluding it create?\n  3. Write f(n) in terms of smaller values\n  4. Find base cases and compute\n\nClassic example — subsets of {1,…,n} with no two consecutive:\n  • If n excluded: f(n−1) remaining subsets\n  • If n included, n−1 excluded: f(n−2) remaining\n  • f(n) = f(n−1) + f(n−2)  — Fibonacci!"
+    }, {
+      heading: "Catalan Numbers",
+      body: "Cₙ = C(2n,n)/(n+1)\n\nFirst few: 1, 1, 2, 5, 14, 42, 132, 429\n\nAll of these are the SAME problem in disguise:\n  • Dyck paths: (0,0) to (n,n) not crossing y = x\n  • Parenthesizations: valid arrangements of n pairs\n  • Triangulations of a convex (n+2)-gon\n  • Binary trees with n internal nodes\n  • Mountain ranges with n up-strokes and n down-strokes"
+    }, {
+      heading: "Recognizing These in Competition",
+      body: "Catalan signals:\n  • Paths staying above/below a diagonal\n  • Balanced parentheses / bracket matching\n  • Sequences of +1s and −1s that never go negative\n\nFibonacci signals:\n  • \"No two adjacent/consecutive\"\n  • Tiling problems (1×2 dominoes on a 2×n board)\n  • Binary strings with no consecutive 1s\n\nGeneral recurrence signals:\n  • The answer for n depends on smaller cases\n  • There's a natural \"first choice\" that splits the problem"
+    }],
+    practice: ["co2", "co4", "co6", "co9"]
+  }],
+  numberTheory: [{
+    title: "Modular Arithmetic",
+    sections: [{
+      heading: "The Core Idea",
+      body: "a ≡ b (mod n) means n | (a − b) — they have the same remainder when divided by n.\n\nYou can add, subtract, and multiply modular equations:\n  If a ≡ b and c ≡ d (mod n), then:\n  • a + c ≡ b + d (mod n)\n  • a · c ≡ b · d (mod n)\n  • aᵏ ≡ bᵏ (mod n)\n\n⚠️ Division only works when gcd(divisor, n) = 1!\nTo \"divide by d\" mod n, multiply by d⁻¹ (the modular inverse)."
+    }, {
+      heading: "Powers & Cycles",
+      body: "Powers mod n ALWAYS cycle. To find aⁿ mod m:\n\n  Step 1: Compute a¹, a², a³, … mod m until you see a repeat.\n  Step 2: The cycle length is L.\n  Step 3: Reduce the exponent: n mod L.\n  Step 4: aⁿ ≡ a^(n mod L) (mod m).\n\nExample: 2⁴⁰ mod 7\n  2¹≡2, 2²≡4, 2³≡1 (mod 7). Cycle length L=3.\n  40 mod 3 = 1.\n  2⁴⁰ ≡ 2¹ ≡ 2 (mod 7)."
+    }, {
+      heading: "Fermat & Euler",
+      body: "Fermat's Little Theorem: If p is prime and gcd(a,p)=1:\n  aᵖ⁻¹ ≡ 1 (mod p)\n\nEuler's Theorem (generalization): If gcd(a,n)=1:\n  a^φ(n) ≡ 1 (mod n)\n\nwhere φ(n) = n · ∏(1 − 1/p) for each prime p dividing n.\n\nExample: φ(100) = 100 · (1−1/2)(1−1/5) = 40.\nSo a⁴⁰ ≡ 1 (mod 100) for any a coprime to 100.\n\n💡 Competition trick: \"Last two digits\" = mod 100. \"Last digit\" = mod 10."
+    }],
+    practice: ["nt1", "nt2", "nt3", "nt11"]
+  }, {
+    title: "Divisibility & Prime Factorization",
+    sections: [{
+      heading: "Fundamental Theorem",
+      body: "Every integer > 1 has a UNIQUE prime factorization.\n\nIf n = p₁^a₁ · p₂^a₂ · … · pₖ^aₖ:\n  • Number of divisors: τ(n) = (a₁+1)(a₂+1)…(aₖ+1)\n  • Sum of divisors: σ(n) = ∏ᵢ (pᵢ^(aᵢ+1) − 1)/(pᵢ − 1)\n\nExample: 360 = 2³ · 3² · 5¹\n  Divisors: 4·3·2 = 24\n  Sum: (15)(13)(6) = 1170"
+    }, {
+      heading: "Legendre's Formula",
+      body: "The exponent of prime p in n! is:\n  vₚ(n!) = ⌊n/p⌋ + ⌊n/p²⌋ + ⌊n/p³⌋ + …\n\nExample: Trailing zeros of 100! = v₅(100!)\n  ⌊100/5⌋ + ⌊100/25⌋ + ⌊100/125⌋ = 20 + 4 + 0 = 24\n\nWhy? Each multiple of 5 gives one factor of 5. Each multiple of 25 gives an EXTRA factor. Etc.\n\n💡 Trailing zeros come from factors of 10 = 2×5. There are always more 2s than 5s, so just count 5s."
+    }, {
+      heading: "GCD, LCM, and Euclidean Algorithm",
+      body: "Key identity: gcd(a,b) · lcm(a,b) = a · b\n\nEuclidean Algorithm:\n  gcd(a,b) = gcd(b, a mod b)\n  Repeat until remainder is 0.\n\nExample: gcd(48,18) = gcd(18,12) = gcd(12,6) = gcd(6,0) = 6\n\nBézout's Identity: There exist integers x,y with:\n  ax + by = gcd(a,b)\nFound via Extended Euclidean Algorithm. This is how you find modular inverses!"
+    }],
+    practice: ["nt4", "nt8", "nt9", "nt10"]
+  }, {
+    title: "Chinese Remainder Theorem",
+    sections: [{
+      heading: "The Core Idea",
+      body: "If m₁, m₂ are coprime (gcd = 1), the system:\n  x ≡ a₁ (mod m₁)\n  x ≡ a₂ (mod m₂)\nhas exactly ONE solution mod m₁·m₂.\n\nThis means: working mod a big number = working mod its coprime factors separately.\n\n\"Last two digits\" = mod 100 = mod 4 and mod 25 (separately!)\n\"mod 1001\" = mod 7, mod 11, mod 13 (separately!)"
+    }, {
+      heading: "Worked Example",
+      body: "Problem: Find all x in {0,…,23} with x² ≡ 1 (mod 24).\n\nStep 1: 24 = 8 × 3, gcd(8,3) = 1. Apply CRT.\n\nMod 3: x² ≡ 1 → x ≡ 1 or 2 (mod 3)  [2 solutions]\nMod 8: x² ≡ 1 → test all: 1²=1✓, 3²=9≡1✓, 5²=25≡1✓, 7²=49≡1✓  [4 solutions]\n\nCombine: 2 × 4 = 8 total solutions mod 24.\n{1, 5, 7, 11, 13, 17, 19, 23}"
+    }, {
+      heading: "Competition Applications",
+      body: "Use CRT when:\n  • The modulus factors into coprimes (12=4·3, 30=2·3·5, etc.)\n  • You need to solve a system of congruences\n  • \"Find the smallest n such that…\" with multiple mod conditions\n\nStep-by-step for systems:\n  1. List all mod conditions\n  2. From the smallest modulus, generate candidates\n  3. Filter by next condition\n  4. The period of the combined solution is the LCM of all moduli"
+    }],
+    practice: ["nt5", "nt7", "nt12"]
+  }],
+  geometry: [{
+    title: "Triangle Toolbox",
+    sections: [{
+      heading: "Every Area Formula You Need",
+      body: "Master ALL of these — competitions test which one you reach for:\n\n  1. A = ½ · base · height  (simplest)\n  2. A = ½ · a · b · sin C  (two sides + included angle)\n  3. Heron's: A = √(s(s−a)(s−b)(s−c)),  s = (a+b+c)/2  (three sides)\n  4. A = r · s  (inradius × semi-perimeter)\n  5. A = abc / (4R)  (circumradius)\n  6. Shoelace: A = ½|x₁(y₂−y₃) + x₂(y₃−y₁) + x₃(y₁−y₂)|  (coordinates)\n\nChoice guide: Know 3 sides → Heron's. Know coordinates → Shoelace. Given a circle → use r or R formulas."
+    }, {
+      heading: "Law of Sines & Cosines",
+      body: "Law of Sines:\n  a/sin A = b/sin B = c/sin C = 2R\n  Use when: you know an angle + opposite side, or need the circumradius.\n\nLaw of Cosines:\n  c² = a² + b² − 2ab·cos C\n  Use when: SAS (two sides + included angle) or SSS (all three sides).\n\n💡 The EXTENDED law of sines (= 2R) is usually more useful in competitions than the basic ratio form."
+    }, {
+      heading: "Special Lines & Points",
+      body: "Altitude: perpendicular from vertex to opposite side. Foot = orthocenter components.\nMedian: vertex to midpoint of opposite side. They meet at the centroid (2:1 ratio).\nAngle bisector: BD/DC = AB/AC (angle bisector theorem).\nPerpendicular bisector: locus of points equidistant from two vertices.\n\nThe four classic triangle centers:\n  • Centroid (G): intersection of medians\n  • Circumcenter (O): intersection of perpendicular bisectors\n  • Incenter (I): intersection of angle bisectors\n  • Orthocenter (H): intersection of altitudes\n\nEuler line: O, G, H are collinear, with OG:GH = 1:2."
+    }],
+    practice: ["ge1", "ge2", "ge6", "ge12"]
+  }, {
+    title: "Circles",
+    sections: [{
+      heading: "Power of a Point",
+      body: "For a point P and a circle:\n  • P outside, two secants: PA·PB = PC·PD\n  • P inside, two chords: PA·PB = PC·PD\n  • Tangent from P: PT² = PA·PB\n\nThe \"power\" of P with respect to the circle = d² − r² (where d = distance to center).\nThis value is the SAME no matter which line through P you draw."
+    }, {
+      heading: "Inscribed Angles",
+      body: "Inscribed Angle Theorem: An inscribed angle = ½ the central angle on the same arc.\n\nBig consequences:\n  • All inscribed angles on the same arc are equal\n  • Angle in a semicircle = 90°\n  • Opposite angles of a cyclic quadrilateral sum to 180°\n  • Tangent-chord angle = ½ the intercepted arc\n\n💡 Cyclic quadrilateral test: If opposite angles sum to 180°, the quad is cyclic (inscribed in a circle)."
+    }, {
+      heading: "Tangent Lines",
+      body: "Key facts:\n  • Tangent ⊥ radius at the point of tangency\n  • Two tangent segments from an external point are equal in length\n  • Tangent-chord angle = ½ intercepted arc\n\nCommon external tangent between circles of radii r₁, r₂ with centers distance d apart:\n  L = √(d² − (r₁ − r₂)²)\n\nCommon internal tangent:\n  L = √(d² − (r₁ + r₂)²)  (only if d > r₁ + r₂)"
+    }],
+    practice: ["ge3", "ge5", "ge7", "ge10"]
+  }, {
+    title: "Coordinate Geometry",
+    sections: [{
+      heading: "When to Coordinate Bash",
+      body: "Place figures on axes when:\n  • The problem involves distances, midpoints, or slopes\n  • Synthetic methods aren't clicking\n  • The figure has symmetry you can exploit\n\nSmart placement:\n  • Right angle at origin, legs along axes\n  • Triangle: put one side on the x-axis, one vertex at origin\n  • Circle: center at origin\n  • Regular polygon: center at origin, vertex at (r, 0)"
+    }, {
+      heading: "Essential Formulas",
+      body: "Distance: √((x₂−x₁)² + (y₂−y₁)²)\nMidpoint: ((x₁+x₂)/2, (y₁+y₂)/2)\nSlope: (y₂−y₁)/(x₂−x₁)\nPerpendicular slopes multiply to −1.\n\nPoint-to-line distance: |ax₀+by₀+c| / √(a²+b²)  for line ax+by+c=0\n\nShoelace formula for polygon area:\n  A = ½|Σ(xᵢyᵢ₊₁ − xᵢ₊₁yᵢ)|"
+    }, {
+      heading: "Transformations & Complex Numbers",
+      body: "Rotation by θ about origin:\n  (x,y) → (x cos θ − y sin θ,  x sin θ + y cos θ)\n\nReflection over x-axis: (x,y) → (x, −y)\nReflection over y = x: (x,y) → (y, x)\n\n🔥 Advanced technique: Use complex numbers for 2D geometry.\n  Point (x,y) = complex number x + iy.\n  Rotation by θ = multiplication by e^(iθ).\n  This is incredibly powerful for regular polygons and rotational symmetry."
+    }],
+    practice: ["ge4", "ge8", "ge9"]
+  }]
+};
+
+// ─── 50+ PROBLEMS ────────────────────────────────────────────────────────────
+var PROBLEMS = {
+  algebra: [{
+    id: "al1",
+    d: 1,
+    q: "The roots of x² − 7x + 12 = 0 are r and s. Find r² + s².",
+    a: "25",
+    sol: "Vieta's: r+s=7, rs=12.\nr²+s² = (r+s)² − 2rs = 49 − 24 = 25.",
+    hint: "Use (r+s)² = r²+2rs+s²."
+  }, {
+    id: "al2",
+    d: 2,
+    q: "Find the sum of all real x with |2x − 5| = |x + 1|.",
+    a: "22/3",
+    sol: "Case 1: 2x−5=x+1 → x=6.\nCase 2: 2x−5=−x−1 → 3x=4 → x=4/3.\nSum = 6 + 4/3 = 22/3.",
+    hint: "Two cases: equal or negatives."
+  }, {
+    id: "al3",
+    d: 2,
+    q: "x³ − 6x² + 11x − 6 has roots r,s,t. Find r² + s² + t².",
+    a: "14",
+    sol: "Vieta's: r+s+t=6, rs+rt+st=11.\n(r+s+t)² − 2(rs+rt+st) = 36 − 22 = 14.",
+    hint: "Expand (r+s+t)² and use Vieta's."
+  }, {
+    id: "al4",
+    d: 3,
+    q: "For positive reals a+b=1, find the minimum of 1/a + 1/b.",
+    a: "4",
+    sol: "Cauchy-Schwarz: (a+b)(1/a+1/b) ≥ (1+1)² = 4.\nSince a+b=1, minimum is 4 at a=b=1/2.",
+    hint: "Cauchy-Schwarz or AM-HM."
+  }, {
+    id: "al5",
+    d: 2,
+    q: "Polynomial x² + bx + c has roots summing to 5 with product 6. Find b + c.",
+    a: "1",
+    sol: "Vieta's: −b=5 → b=−5, c=6.\nb+c = −5+6 = 1.",
+    hint: "Sum of roots = −b/a."
+  }, {
+    id: "al6",
+    d: 3,
+    q: "How many ordered pairs (a,b) of positive integers satisfy 1/a + 1/b = 1/6?",
+    a: "9",
+    sol: "Rearrange: (a−6)(b−6) = 36.\nBoth factors positive → 9 divisor pairs of 36.",
+    hint: "Simon's Favorite Factoring Trick."
+  }, {
+    id: "al7",
+    d: 3,
+    q: "How many ordered pairs (x,y) of positive integers satisfy 1/x + 1/y = 1/12?",
+    a: "15",
+    sol: "(x−12)(y−12) = 144.\nx,y > 12, so positive factor pairs of 144.\n144 has 15 divisors → 15 ordered pairs.",
+    hint: "SFFT again: what's 12²?"
+  }, {
+    id: "al8",
+    d: 2,
+    q: "If x,y > 0 and x + y = 10, find the maximum of xy.",
+    a: "25",
+    sol: "AM-GM: (x+y)/2 ≥ √(xy)\n5 ≥ √(xy) → xy ≤ 25.\nEquality at x=y=5.",
+    hint: "AM-GM with the constraint."
+  }, {
+    id: "al9",
+    d: 2,
+    q: "Solve: log₂(x) + log₂(x−2) = 3.",
+    a: "4",
+    sol: "log₂(x(x−2)) = 3 → x²−2x = 8\nx²−2x−8 = 0 → (x−4)(x+2) = 0.\nSince x > 2: x = 4.",
+    hint: "Combine logs, then solve the quadratic."
+  }, {
+    id: "al10",
+    d: 4,
+    q: "Find the value of √(2 + √(2 + √(2 + …))).",
+    a: "2",
+    sol: "Let x = √(2+x). Then x²=2+x → x²−x−2=0 → (x−2)(x+1)=0.\nSince x>0: x=2.",
+    hint: "Self-similar structure → set equal to x."
+  }, {
+    id: "al11",
+    d: 1,
+    q: "If f(x)=2x+3 and g(x)=x²−1, what is f(g(3))?",
+    a: "19",
+    sol: "g(3)=9−1=8. f(8)=16+3=19.",
+    hint: "Inside-out: compute g(3) first."
+  }, {
+    id: "al12",
+    d: 2,
+    q: "Sum of infinite geometric series: 3 + 3/2 + 3/4 + 3/8 + …",
+    a: "6",
+    sol: "a=3, r=1/2. Sum = a/(1−r) = 3/(1/2) = 6.",
+    hint: "Sum = a/(1−r) for |r|<1."
+  }, {
+    id: "al13",
+    d: 3,
+    q: "P(x) = x⁴ − 4x³ + 6x² − 4x + 1. How many distinct real roots?",
+    a: "1",
+    sol: "P(x) = (x−1)⁴. One distinct root: x=1 (multiplicity 4).",
+    hint: "Recognize the binomial expansion of (x−1)⁴."
+  }, {
+    id: "al14",
+    d: 1,
+    q: "Solve for x: 3(x − 2) + 4 = 2x + 5.",
+    a: "7",
+    sol: "3x − 6 + 4 = 2x + 5 → 3x − 2 = 2x + 5 → x = 7.",
+    hint: "Distribute, combine like terms."
+  }, {
+    id: "al15",
+    d: 4,
+    q: "If a + b + c = 0 and a² + b² + c² = 6, find a⁴ + b⁴ + c⁴.",
+    a: "18",
+    sol: "From a+b+c=0: (a+b+c)²=0 → a²+b²+c²+2(ab+bc+ca)=0 → ab+bc+ca=−3.\n(a²+b²+c²)² = a⁴+b⁴+c⁴ + 2(a²b²+b²c²+c²a²).\nAlso (ab+bc+ca)² = a²b²+b²c²+c²a² + 2abc(a+b+c) = a²b²+b²c²+c²a².\nSo a²b²+b²c²+c²a² = 9.\na⁴+b⁴+c⁴ = 36 − 18 = 18.",
+    hint: "Square both given equations and use (ab+bc+ca)²."
+  }],
+  combinatorics: [{
+    id: "co1",
+    d: 1,
+    q: "How many ways to arrange the letters in BANANA?",
+    a: "60",
+    sol: "6!/(3!·2!·1!) = 720/12 = 60.",
+    hint: "Multinomial coefficient."
+  }, {
+    id: "co2",
+    d: 2,
+    q: "Subsets of {1,…,10} with no two consecutive integers?",
+    a: "144",
+    sol: "f(n)=f(n−1)+f(n−2), f(1)=2, f(2)=3.\nf(10)=144.",
+    hint: "Fibonacci-like recurrence."
+  }, {
+    id: "co3",
+    d: 2,
+    q: "Committee of 5 from 6 men, 4 women, at least 2 women?",
+    a: "186",
+    sol: "C(10,5) − C(6,5) − C(4,1)C(6,4)\n= 252 − 6 − 60 = 186.",
+    hint: "Complementary counting."
+  }, {
+    id: "co4",
+    d: 3,
+    q: "Lattice paths (0,0)→(4,4) not crossing above y=x?",
+    a: "14",
+    sol: "Catalan: C₄ = C(8,4)/5 = 70/5 = 14.",
+    hint: "Catalan number C(2n,n)/(n+1)."
+  }, {
+    id: "co5",
+    d: 2,
+    q: "Place 8 non-attacking rooks on 8×8 board?",
+    a: "40320",
+    sol: "One per row, one per column → 8! = 40320.",
+    hint: "It's a permutation of columns."
+  }, {
+    id: "co6",
+    d: 3,
+    q: "Ways to parenthesize a product of 5 numbers?",
+    a: "14",
+    sol: "Catalan C₄ = 14.",
+    hint: "Parenthesizations = Catalan numbers."
+  }, {
+    id: "co7",
+    d: 2,
+    q: "How many 4-letter words (A–Z) with no repeated letters?",
+    a: "358800",
+    sol: "26 × 25 × 24 × 23 = 358800.",
+    hint: "Permutation: P(26,4)."
+  }, {
+    id: "co8",
+    d: 3,
+    q: "Distribute 15 identical candies among 4 kids, each gets ≥ 2?",
+    a: "120",
+    sol: "After 2 each: 7 remaining among 4.\nC(10,3) = 120.",
+    hint: "Stars and bars after minimums."
+  }, {
+    id: "co9",
+    d: 3,
+    q: "How many derangements of {1,2,3,4,5}?",
+    a: "44",
+    sol: "D(5) = 5!(1−1+1/2!−1/3!+1/4!−1/5!)\n= 120 · (44/120) = 44.",
+    hint: "Derangement formula: n!·Σ(−1)ᵏ/k!."
+  }, {
+    id: "co10",
+    d: 3,
+    q: "Circular permutations of 8 people at a round table?",
+    a: "5040",
+    sol: "(8−1)! = 7! = 5040.",
+    hint: "Fix one person, permute the rest."
+  }, {
+    id: "co11",
+    d: 1,
+    q: "Choose 3 books from 8?",
+    a: "56",
+    sol: "C(8,3) = 56.",
+    hint: "Combination: C(n,k)."
+  }, {
+    id: "co12",
+    d: 2,
+    q: "Integers from 1–100 divisible by 2 or 3?",
+    a: "67",
+    sol: "⌊100/2⌋+⌊100/3⌋−⌊100/6⌋ = 50+33−16 = 67.",
+    hint: "Inclusion-exclusion."
+  }, {
+    id: "co13",
+    d: 1,
+    q: "How many ways to flip a coin 5 times and get exactly 2 heads?",
+    a: "10",
+    sol: "C(5,2) = 10.",
+    hint: "Choose which 2 flips are heads."
+  }, {
+    id: "co14",
+    d: 4,
+    q: "How many lattice paths from (0,0) to (6,6) pass through (3,3)?",
+    a: "400",
+    sol: "Paths (0,0)→(3,3): C(6,3)=20.\nPaths (3,3)→(6,6): C(6,3)=20.\nTotal: 20×20 = 400.",
+    hint: "Break the path at the required point."
+  }],
+  numberTheory: [{
+    id: "nt1",
+    d: 1,
+    q: "What is 2⁴⁰ mod 7?",
+    a: "2",
+    sol: "2³ ≡ 1 (mod 7). 40 = 3·13+1.\n2⁴⁰ ≡ 2¹ ≡ 2.",
+    hint: "Powers of 2 mod 7 cycle with period 3."
+  }, {
+    id: "nt2",
+    d: 2,
+    q: "How many positive integers < 100 are coprime to 100?",
+    a: "40",
+    sol: "φ(100) = 100·(1−1/2)(1−1/5) = 40.",
+    hint: "Euler's totient function."
+  }, {
+    id: "nt3",
+    d: 3,
+    q: "Last two digits of 7²⁰²³?",
+    a: "43",
+    sol: "φ(100)=40. 2023 mod 40 = 23.\n7⁴ = 2401 ≡ 1 (mod 100).\n7²³ = (7⁴)⁵ · 7³ ≡ 1 · 343 ≡ 43.",
+    hint: "Euler's theorem → reduce exponent."
+  }, {
+    id: "nt4",
+    d: 2,
+    q: "How many trailing zeros in 100!?",
+    a: "24",
+    sol: "⌊100/5⌋+⌊100/25⌋+⌊100/125⌋\n= 20+4+0 = 24.",
+    hint: "Legendre's formula for v₅(100!)."
+  }, {
+    id: "nt5",
+    d: 3,
+    q: "All x ∈ {0,…,23} with x² ≡ 1 (mod 24)?",
+    a: "1,5,7,11,13,17,19,23",
+    sol: "CRT: 24=8×3.\nMod 8: x ∈ {1,3,5,7}. Mod 3: x ∈ {1,2}.\nCombine: 8 solutions.",
+    hint: "Factor 24 = 8×3, use CRT."
+  }, {
+    id: "nt6",
+    d: 2,
+    q: "Largest prime factor of 1001?",
+    a: "13",
+    sol: "1001 = 7 × 143 = 7 × 11 × 13.",
+    hint: "Try dividing by small primes."
+  }, {
+    id: "nt7",
+    d: 2,
+    q: "Find 17⁻¹ mod 30.",
+    a: "23",
+    sol: "17 × 23 = 391 = 13 × 30 + 1.\nSo 17 · 23 ≡ 1 (mod 30).",
+    hint: "Find x with 17x ≡ 1 (mod 30)."
+  }, {
+    id: "nt8",
+    d: 1,
+    q: "What is gcd(48, 18)?",
+    a: "6",
+    sol: "48 = 2·18+12. 18 = 1·12+6. 12 = 2·6+0.\ngcd = 6.",
+    hint: "Euclidean algorithm."
+  }, {
+    id: "nt9",
+    d: 2,
+    q: "How many factors does 360 have?",
+    a: "24",
+    sol: "360 = 2³·3²·5¹.\n(3+1)(2+1)(1+1) = 24.",
+    hint: "Multiply (exponent+1) for each prime."
+  }, {
+    id: "nt10",
+    d: 3,
+    q: "Sum of all divisors of 360?",
+    a: "1170",
+    sol: "σ(360) = (1+2+4+8)(1+3+9)(1+5)\n= 15 · 13 · 6 = 1170.",
+    hint: "Product of geometric sums per prime."
+  }, {
+    id: "nt11",
+    d: 2,
+    q: "Remainder when 3¹⁰⁰ is divided by 5?",
+    a: "1",
+    sol: "3⁴=81≡1 (mod 5). 100=4·25.\n3¹⁰⁰ ≡ 1.",
+    hint: "Cycle of 3ⁿ mod 5."
+  }, {
+    id: "nt12",
+    d: 4,
+    q: "Smallest positive n: n≡2(mod 3), n≡3(mod 5), n≡2(mod 7)?",
+    a: "23",
+    sol: "n ∈ {2,5,8,11,14,17,20,23,…} (mod 3)\n∩ {3,8,13,18,23,…} (mod 5)\n∩ {2,9,16,23,…} (mod 7)\nFirst common: 23.",
+    hint: "CRT guarantees a solution mod 105."
+  }, {
+    id: "nt13",
+    d: 1,
+    q: "Is 91 prime?",
+    a: "no",
+    sol: "91 = 7 × 13. Not prime!",
+    hint: "Try dividing by primes up to √91 ≈ 9.5."
+  }, _defineProperty(_defineProperty(_defineProperty({
+    id: "nt14",
+    d: 3,
+    q: "Find the number of positive divisors of 10! that are perfect squares.",
+    a: "8",
+    sol: "10! = 2⁸·3⁴·5²·7¹.\nPerfect square divisors: exponents must be even.\n2: {0,2,4,6,8}→5, 3: {0,2,4}→3, 5: {0,2}→2, 7: {0}→1.\n5·3·2·1 = 30. Wait, let me recount.\nActually only even exponents ≤ prime's exponent:\n2^{0,2,4,6,8}: 5 choices.\n3^{0,2,4}: 3 choices.\n5^{0,2}: 2 choices.\n7^{0}: 1 choice.\nTotal: 5·3·2·1 = 30."
+  }, "a", "30"), "sol", "10!=2⁸·3⁴·5²·7. Square divisors need even exponents.\n2:{0,2,4,6,8}→5. 3:{0,2,4}→3. 5:{0,2}→2. 7:{0}→1.\nTotal: 5·3·2·1 = 30."), "hint", "Factor 10!, then count divisors with all even exponents.")],
+  geometry: [{
+    id: "ge1",
+    d: 1,
+    q: "Right triangle, legs 5 and 12. Hypotenuse?",
+    a: "13",
+    sol: "√(25+144) = √169 = 13.",
+    hint: "Pythagorean theorem."
+  }, {
+    id: "ge2",
+    d: 2,
+    q: "Triangle sides 13, 14, 15. Area?",
+    a: "84",
+    sol: "s=21. Heron's: √(21·8·7·6) = √7056 = 84.",
+    hint: "Heron's formula."
+  }, {
+    id: "ge3",
+    d: 2,
+    q: "Circles radii 3,5 externally tangent. External tangent length?",
+    a: "2√15",
+    sol: "d=8. L=√(64−4) = √60 = 2√15.",
+    hint: "L = √(d²−(r₁−r₂)²)."
+  }, {
+    id: "ge4",
+    d: 2,
+    q: "Regular hexagon, side 6. Area?",
+    a: "54√3",
+    sol: "6 equilateral triangles: 6·(√3/4)·36 = 54√3.",
+    hint: "Split into 6 equilateral triangles."
+  }, {
+    id: "ge5",
+    d: 2,
+    q: "Circle radius 10, chord length 12. Distance center to chord?",
+    a: "8",
+    sol: "Half-chord=6. d=√(100−36) = 8.",
+    hint: "Perpendicular bisects the chord."
+  }, {
+    id: "ge6",
+    d: 3,
+    q: "Triangle in circle R=7, angle A=60°. Find BC.",
+    a: "7√3",
+    sol: "Extended law of sines: BC = 2R sin A = 14·(√3/2) = 7√3.",
+    hint: "a/sin A = 2R."
+  }, {
+    id: "ge7",
+    d: 3,
+    q: "External point tangent length 12, distance to center 13. Radius?",
+    a: "5",
+    sol: "r² + 12² = 13² → r = 5.",
+    hint: "Right triangle: tangent ⊥ radius."
+  }, {
+    id: "ge8",
+    d: 1,
+    q: "Area of triangle (0,0), (4,0), (0,3)?",
+    a: "6",
+    sol: "½ · 4 · 3 = 6.",
+    hint: "Right triangle: ½·base·height."
+  }, {
+    id: "ge9",
+    d: 3,
+    q: "Shoelace area: vertices (1,2), (4,6), (7,2)?",
+    a: "12",
+    sol: "|1(6−2)+4(2−2)+7(2−6)|/2 = |4+0−28|/2 = 12.",
+    hint: "Shoelace formula."
+  }, {
+    id: "ge10",
+    d: 3,
+    q: "Two chords intersect. One split 3 and 8, other has segment 4. Find the other segment.",
+    a: "6",
+    sol: "Power of a point: 3·8 = 4·x → x=6.",
+    hint: "Intersecting chords: equal products."
+  }, {
+    id: "ge11",
+    d: 1,
+    q: "Area of circle with radius 7?",
+    a: "49π",
+    sol: "πr² = 49π.",
+    hint: "A = πr²."
+  }, {
+    id: "ge12",
+    d: 3,
+    q: "AB=15, AC=13, altitude from A = 12. Find BC.",
+    a: "14",
+    sol: "BH=√(225−144)=9. HC=√(169−144)=5. BC=14.",
+    hint: "Two right triangles share the altitude."
+  }, {
+    id: "ge13",
+    d: 2,
+    q: "A square has diagonal 10. What is its area?",
+    a: "50",
+    sol: "Side = 10/√2. Area = (10/√2)² = 50.\nOr: Area = d²/2 = 100/2 = 50.",
+    hint: "Area of square = d²/2."
+  }, {
+    id: "ge14",
+    d: 4,
+    q: "In triangle ABC, a=7, b=8, c=9. Find cos A.",
+    a: "2/3",
+    sol: "Law of cosines: a²=b²+c²−2bc·cos A\n49=64+81−144·cos A\n144·cos A = 96\ncos A = 96/144 = 2/3.",
+    hint: "Law of cosines, solve for cos A."
+  }]
+};
+
+// ─── ROUND CONFIGS (DMI-style) ───────────────────────────────────────────────
+var ROUNDS = {
+  lightning: {
+    name: "Lightning Round",
+    time: 180,
+    count: 6,
+    minD: 1,
+    maxD: 2,
+    desc: "3 min · 6 problems · speed is key",
+    icon: "⚡",
+    color: "#ecc94b"
+  },
+  standard: {
+    name: "Standard Round",
+    time: 600,
+    count: 8,
+    minD: 1,
+    maxD: 3,
+    desc: "10 min · 8 problems · balanced difficulty",
+    icon: "📝",
+    color: "#e07a2f"
+  },
+  marathon: {
+    name: "Marathon Round",
+    time: 3600,
+    count: 15,
+    minD: 2,
+    maxD: 4,
+    desc: "1 hour · 15 problems · full competition simulation",
+    icon: "🏔",
+    color: "#e04545"
+  }
+};
+var TOPIC_META = {
+  algebra: {
+    label: "Algebra",
+    icon: "ƒ",
+    color: "#e07a2f"
+  },
+  combinatorics: {
+    label: "Combinatorics",
+    icon: "C",
+    color: "#2a9d8f"
+  },
+  numberTheory: {
+    label: "Number Theory",
+    icon: "#",
+    color: "#8338ec"
+  },
+  geometry: {
+    label: "Geometry",
+    icon: "△",
+    color: "#0096c7"
+  }
+};
+var ALL_TOPICS = Object.keys(TOPIC_META);
+function pickProblems(count, minD, maxD) {
+  var pool = [];
+  ALL_TOPICS.forEach(function (t) {
+    return pool.push.apply(pool, _toConsumableArray(PROBLEMS[t].filter(function (p) {
+      return p.d >= minD && p.d <= maxD;
+    })));
+  });
+  return [].concat(pool).sort(function () {
+    return Math.random() - 0.5;
+  }).slice(0, Math.min(count, pool.length));
+}
+function App() {
+  var _useState = useState("home"),
+    _useState2 = _slicedToArray(_useState, 2),
+    view = _useState2[0],
+    setView = _useState2[1];
+  var _useState3 = useState(null),
+    _useState4 = _slicedToArray(_useState3, 2),
+    topic = _useState4[0],
+    setTopic = _useState4[1];
+  var _useState5 = useState(0),
+    _useState6 = _slicedToArray(_useState5, 2),
+    lessonIdx = _useState6[0],
+    setLessonIdx = _useState6[1];
+  var _useState7 = useState(0),
+    _useState8 = _slicedToArray(_useState7, 2),
+    secIdx = _useState8[0],
+    setSecIdx = _useState8[1];
+  var _useState9 = useState([]),
+    _useState0 = _slicedToArray(_useState9, 2),
+    probs = _useState0[0],
+    setProbs = _useState0[1];
+  var _useState1 = useState(0),
+    _useState10 = _slicedToArray(_useState1, 2),
+    pi = _useState10[0],
+    setPi = _useState10[1];
+  var _useState11 = useState(""),
+    _useState12 = _slicedToArray(_useState11, 2),
+    ans = _useState12[0],
+    setAns = _useState12[1];
+  var _useState13 = useState(null),
+    _useState14 = _slicedToArray(_useState13, 2),
+    fb = _useState14[0],
+    setFb = _useState14[1];
+  var _useState15 = useState(false),
+    _useState16 = _slicedToArray(_useState15, 2),
+    showH = _useState16[0],
+    setShowH = _useState16[1];
+  var _useState17 = useState(false),
+    _useState18 = _slicedToArray(_useState17, 2),
+    showS = _useState18[0],
+    setShowS = _useState18[1];
+  var _useState19 = useState({
+      c: 0,
+      t: 0
+    }),
+    _useState20 = _slicedToArray(_useState19, 2),
+    score = _useState20[0],
+    setScore = _useState20[1];
+  var _useState21 = useState(null),
+    _useState22 = _slicedToArray(_useState21, 2),
+    roundType = _useState22[0],
+    setRoundType = _useState22[1];
+  var _useState23 = useState({}),
+    _useState24 = _slicedToArray(_useState23, 2),
+    tAnswers = _useState24[0],
+    setTAnswers = _useState24[1];
+  var _useState25 = useState(0),
+    _useState26 = _slicedToArray(_useState25, 2),
+    timeLeft = _useState26[0],
+    setTimeLeft = _useState26[1];
+  var _useState27 = useState(false),
+    _useState28 = _slicedToArray(_useState27, 2),
+    timerOn = _useState28[0],
+    setTimerOn = _useState28[1];
+  var _useState29 = useState(false),
+    _useState30 = _slicedToArray(_useState29, 2),
+    tDone = _useState30[0],
+    setTDone = _useState30[1];
+  var _useState31 = useState(null),
+    _useState32 = _slicedToArray(_useState31, 2),
+    reviewId = _useState32[0],
+    setReviewId = _useState32[1];
+  var _useState33 = useState(null),
+    _useState34 = _slicedToArray(_useState33, 2),
+    hov = _useState34[0],
+    setHov = _useState34[1];
+  var intRef = useRef(null);
+  var inputRef = useRef(null);
+  useEffect(function () {
+    if (timerOn && timeLeft > 0) {
+      intRef.current = setInterval(function () {
+        return setTimeLeft(function (t) {
+          if (t <= 1) {
+            clearInterval(intRef.current);
+            setTimerOn(false);
+            setTDone(true);
+            return 0;
+          }
+          return t - 1;
+        });
+      }, 1000);
+    }
+    return function () {
+      return clearInterval(intRef.current);
+    };
+  }, [timerOn]);
+  useEffect(function () {
+    if (inputRef.current) inputRef.current.focus();
+  }, [pi, view]);
+  var reset = function reset() {
+    setView("home");
+    setTopic(null);
+    setFb(null);
+    setShowH(false);
+    setShowS(false);
+    setAns("");
+    setTimerOn(false);
+    setTDone(false);
+    clearInterval(intRef.current);
+    setReviewId(null);
+  };
+  var topicOf = function topicOf(p) {
+    return ALL_TOPICS.find(function (t) {
+      return PROBLEMS[t].some(function (x) {
+        return x.id === p.id;
+      });
+    });
+  };
+  var fmt = function fmt(s) {
+    return "".concat(Math.floor(s / 60), ":").concat((s % 60).toString().padStart(2, "0"));
+  };
+  var goLesson = function goLesson(t, i) {
+    setTopic(t);
+    setLessonIdx(i);
+    setSecIdx(0);
+    setView("lesson");
+  };
+  var goPractice = function goPractice(t, ids) {
+    var ps = ids ? ids.map(function (id) {
+      var _iterator = _createForOfIteratorHelper(ALL_TOPICS),
+        _step;
+      try {
+        for (_iterator.s(); !(_step = _iterator.n()).done;) {
+          var tk = _step.value;
+          var f = PROBLEMS[tk].find(function (p) {
+            return p.id === id;
+          });
+          if (f) return f;
+        }
+      } catch (err) {
+        _iterator.e(err);
+      } finally {
+        _iterator.f();
+      }
+      return null;
+    }).filter(Boolean) : PROBLEMS[t];
+    setProbs(ps);
+    setPi(0);
+    setAns("");
+    setFb(null);
+    setShowH(false);
+    setShowS(false);
+    setScore({
+      c: 0,
+      t: 0
+    });
+    setTopic(t);
+    setView("practice");
+  };
+  var goRound = function goRound(type) {
+    var c = ROUNDS[type];
+    setRoundType(type);
+    setProbs(pickProblems(c.count, c.minD, c.maxD));
+    setTAnswers({});
+    setPi(0);
+    setTimeLeft(c.time);
+    setTimerOn(true);
+    setTDone(false);
+    setAns("");
+    setFb(null);
+    setShowH(false);
+    setShowS(false);
+    setReviewId(null);
+    setView("timed");
+  };
+  var check = function check() {
+    if (!ans.trim()) return;
+    var p = probs[pi];
+    var cl = function cl(s) {
+      return s.replace(/[\s*]/g, "").toLowerCase();
+    };
+    var ok = cl(ans) === cl(p.a);
+    setFb(ok ? "y" : "n");
+    if (view === "timed") setTAnswers(function (prev) {
+      return _objectSpread(_objectSpread({}, prev), {}, _defineProperty({}, p.id, {
+        given: ans,
+        correct: ok
+      }));
+    });else setScore(function (prev) {
+      return {
+        c: prev.c + (ok ? 1 : 0),
+        t: prev.t + 1
+      };
+    });
+  };
+  var next = function next() {
+    if (pi < probs.length - 1) setPi(pi + 1);else if (view === "timed") {
+      setTDone(true);
+      setTimerOn(false);
+      clearInterval(intRef.current);
+    } else setPi(0);
+    setAns("");
+    setFb(null);
+    setShowH(false);
+    setShowS(false);
+  };
+  var skip = function skip() {
+    if (view === "timed") setTAnswers(function (prev) {
+      return _objectSpread(_objectSpread({}, prev), {}, _defineProperty({}, probs[pi].id, {
+        given: "",
+        correct: false
+      }));
+    });
+    next();
+  };
+  var ff = "'IBM Plex Mono', monospace";
+  var fs = "'Source Sans 3', sans-serif";
+  var S = {
+    page: {
+      fontFamily: fs,
+      background: "#08080d",
+      color: "#d8d5cf",
+      minHeight: "100vh",
+      padding: "20px 24px",
+      boxSizing: "border-box",
+      maxWidth: 740,
+      margin: "0 auto"
+    },
+    tag: function tag(c) {
+      return {
+        display: "inline-block",
+        fontSize: 10,
+        fontFamily: ff,
+        fontWeight: 600,
+        letterSpacing: 1.5,
+        textTransform: "uppercase",
+        padding: "3px 10px",
+        borderRadius: 4,
+        background: "".concat(c, "18"),
+        color: c
+      };
+    },
+    h1: {
+      fontFamily: ff,
+      fontSize: 26,
+      fontWeight: 700,
+      color: "#f5f5f0",
+      margin: "0 0 6px"
+    },
+    h2: {
+      fontFamily: ff,
+      fontSize: 18,
+      fontWeight: 600,
+      color: "#f5f5f0",
+      margin: "0 0 4px"
+    },
+    h3: {
+      fontFamily: ff,
+      fontSize: 13,
+      fontWeight: 600,
+      color: "#706a60",
+      margin: "0 0 12px",
+      letterSpacing: 1.5,
+      textTransform: "uppercase"
+    },
+    sub: {
+      fontSize: 13,
+      color: "#555048"
+    },
+    card: function card(c, h) {
+      return {
+        background: h ? "".concat(c, "0c") : "#0e0e15",
+        border: "1px solid ".concat(h ? c + "44" : "#1a1a24"),
+        borderRadius: 10,
+        padding: "18px 20px",
+        cursor: "pointer",
+        transition: "all .2s"
+      };
+    },
+    btn: function btn() {
+      var c = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "#2a9d8f";
+      return {
+        background: c,
+        color: "#fff",
+        border: "none",
+        borderRadius: 7,
+        padding: "9px 18px",
+        fontFamily: ff,
+        fontSize: 12,
+        fontWeight: 600,
+        cursor: "pointer"
+      };
+    },
+    btnG: {
+      background: "transparent",
+      border: "1px solid #222230",
+      color: "#777068",
+      borderRadius: 7,
+      padding: "8px 15px",
+      fontFamily: ff,
+      fontSize: 12,
+      cursor: "pointer"
+    },
+    input: {
+      flex: 1,
+      background: "#0b0b12",
+      border: "1px solid #222230",
+      borderRadius: 7,
+      padding: "10px 14px",
+      color: "#d8d5cf",
+      fontSize: 15,
+      fontFamily: ff,
+      outline: "none"
+    },
+    prob: {
+      background: "#0e0e15",
+      border: "1px solid #1a1a24",
+      borderRadius: 10,
+      padding: "22px",
+      marginBottom: 14,
+      fontSize: 16,
+      lineHeight: 1.75,
+      whiteSpace: "pre-wrap"
+    },
+    sol: {
+      background: "#0a1510",
+      border: "1px solid #15302a",
+      borderRadius: 8,
+      padding: "16px 20px",
+      marginTop: 10,
+      whiteSpace: "pre-wrap",
+      lineHeight: 1.65,
+      fontSize: 13,
+      fontFamily: ff,
+      color: "#7ddb8a"
+    },
+    hint: {
+      background: "#120e18",
+      border: "1px solid #251840",
+      borderRadius: 8,
+      padding: "14px 18px",
+      marginTop: 10,
+      fontSize: 13,
+      color: "#c4a8e8",
+      fontStyle: "italic"
+    },
+    fbk: function fbk(ok) {
+      return {
+        padding: "9px 16px",
+        borderRadius: 7,
+        fontFamily: ff,
+        fontSize: 13,
+        fontWeight: 600,
+        background: ok ? "#0a1510" : "#180a0a",
+        border: "1px solid ".concat(ok ? "#15302a" : "#301515"),
+        color: ok ? "#2a9d8f" : "#e04040",
+        marginBottom: 10
+      };
+    },
+    dots: function dots(lv) {
+      return Array.from({
+        length: 4
+      }, function (_, i) {
+        return i + 1;
+      }).map(function (i) {
+        return /*#__PURE__*/React.createElement("span", {
+          key: i,
+          style: {
+            display: "inline-block",
+            width: 6,
+            height: 6,
+            borderRadius: "50%",
+            marginRight: 3,
+            background: i <= lv ? lv <= 2 ? "#2a9d8f" : lv === 3 ? "#dda032" : "#e85d04" : "#222230"
+          }
+        });
+      });
+    },
+    bar: function bar(c) {
+      return {
+        height: 3,
+        background: "#1a1a24",
+        borderRadius: 2,
+        marginBottom: 14,
+        position: "relative",
+        overflow: "hidden"
+      };
+    },
+    barF: function barF(pct, c) {
+      return {
+        position: "absolute",
+        left: 0,
+        top: 0,
+        height: "100%",
+        width: "".concat(pct, "%"),
+        background: c,
+        borderRadius: 2,
+        transition: "width .3s"
+      };
+    },
+    grid: function grid(n) {
+      return {
+        display: "grid",
+        gridTemplateColumns: "repeat(auto-fill,minmax(".concat(n, "px,1fr))"),
+        gap: 12
+      };
+    },
+    timer: function timer(w) {
+      return {
+        fontFamily: ff,
+        fontSize: 32,
+        fontWeight: 700,
+        color: w ? "#e04040" : "#e07a2f",
+        textAlign: "center",
+        margin: "0 0 14px"
+      };
+    }
+  };
+  var Home = function Home() {
+    return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+      style: {
+        textAlign: "center",
+        marginBottom: 32,
+        paddingTop: 8
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 10,
+        fontFamily: ff,
+        letterSpacing: 3,
+        textTransform: "uppercase",
+        color: "#555048",
+        marginBottom: 8
+      }
+    }, "AMC 10 \u2192 AIME"), /*#__PURE__*/React.createElement("h1", {
+      style: _objectSpread(_objectSpread({}, S.h1), {}, {
+        fontSize: 28
+      })
+    }, "Math Competition Trainer"), /*#__PURE__*/React.createElement("p", {
+      style: _objectSpread(_objectSpread({}, S.sub), {}, {
+        marginTop: 6
+      })
+    }, "Learn concepts \xB7 Solve 50+ problems \xB7 DMI-style timed rounds")), /*#__PURE__*/React.createElement("h3", {
+      style: S.h3
+    }, "Learn & Practice by Topic"), /*#__PURE__*/React.createElement("div", {
+      style: S.grid(170)
+    }, ALL_TOPICS.map(function (t) {
+      var m = TOPIC_META[t];
+      return /*#__PURE__*/React.createElement("div", {
+        key: t,
+        style: S.card(m.color, hov === t),
+        onMouseEnter: function onMouseEnter() {
+          return setHov(t);
+        },
+        onMouseLeave: function onMouseLeave() {
+          return setHov(null);
+        },
+        onClick: function onClick() {
+          setTopic(t);
+          setView("hub");
+        }
+      }, /*#__PURE__*/React.createElement("div", {
+        style: {
+          fontFamily: ff,
+          fontSize: 28,
+          fontWeight: 700,
+          color: m.color,
+          marginBottom: 6
+        }
+      }, m.icon), /*#__PURE__*/React.createElement("div", {
+        style: {
+          fontSize: 15,
+          fontWeight: 600,
+          marginBottom: 2
+        }
+      }, m.label), /*#__PURE__*/React.createElement("div", {
+        style: {
+          fontSize: 11,
+          color: "#555048"
+        }
+      }, LESSONS[t].length, " lessons \xB7 ", PROBLEMS[t].length, " problems"));
+    })), /*#__PURE__*/React.createElement("h3", {
+      style: _objectSpread(_objectSpread({}, S.h3), {}, {
+        marginTop: 26
+      })
+    }, "DMI-Style Timed Rounds"), /*#__PURE__*/React.createElement("div", {
+      style: S.grid(200)
+    }, Object.entries(ROUNDS).map(function (_ref2) {
+      var _ref3 = _slicedToArray(_ref2, 2),
+        k = _ref3[0],
+        r = _ref3[1];
+      return /*#__PURE__*/React.createElement("div", {
+        key: k,
+        style: S.card(r.color, hov === k),
+        onMouseEnter: function onMouseEnter() {
+          return setHov(k);
+        },
+        onMouseLeave: function onMouseLeave() {
+          return setHov(null);
+        },
+        onClick: function onClick() {
+          return goRound(k);
+        }
+      }, /*#__PURE__*/React.createElement("div", {
+        style: {
+          fontSize: 24,
+          marginBottom: 4
+        }
+      }, r.icon), /*#__PURE__*/React.createElement("div", {
+        style: {
+          fontSize: 14,
+          fontWeight: 600,
+          marginBottom: 2
+        }
+      }, r.name), /*#__PURE__*/React.createElement("div", {
+        style: {
+          fontSize: 11,
+          color: "#555048"
+        }
+      }, r.desc));
+    })));
+  };
+  var Hub = function Hub() {
+    var m = TOPIC_META[topic];
+    return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        gap: 8,
+        alignItems: "center",
+        marginBottom: 20
+      }
+    }, /*#__PURE__*/React.createElement("button", {
+      style: S.btnG,
+      onClick: reset
+    }, "\u2190 Home"), /*#__PURE__*/React.createElement("span", {
+      style: S.tag(m.color)
+    }, m.label)), /*#__PURE__*/React.createElement("h3", {
+      style: S.h3
+    }, "Lessons (learn first!)"), LESSONS[topic].map(function (l, i) {
+      return /*#__PURE__*/React.createElement("div", {
+        key: i,
+        style: _objectSpread(_objectSpread({}, S.card(m.color, hov === "l".concat(i))), {}, {
+          marginBottom: 8,
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center"
+        }),
+        onMouseEnter: function onMouseEnter() {
+          return setHov("l".concat(i));
+        },
+        onMouseLeave: function onMouseLeave() {
+          return setHov(null);
+        },
+        onClick: function onClick() {
+          return goLesson(topic, i);
+        }
+      }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+        style: {
+          fontSize: 14,
+          fontWeight: 600
+        }
+      }, l.title), /*#__PURE__*/React.createElement("div", {
+        style: {
+          fontSize: 11,
+          color: "#555048"
+        }
+      }, l.sections.length, " sections \xB7 ", l.practice.length, " practice Qs")), /*#__PURE__*/React.createElement("span", {
+        style: {
+          color: m.color,
+          fontFamily: ff,
+          fontSize: 16
+        }
+      }, "\u2192"));
+    }), /*#__PURE__*/React.createElement("h3", {
+      style: _objectSpread(_objectSpread({}, S.h3), {}, {
+        marginTop: 22
+      })
+    }, "Practice All ", m.label), /*#__PURE__*/React.createElement("button", {
+      style: S.btn(m.color),
+      onClick: function onClick() {
+        return goPractice(topic, null);
+      }
+    }, "All ", PROBLEMS[topic].length, " Problems \u2192"));
+  };
+  var Lesson = function Lesson() {
+    var m = TOPIC_META[topic];
+    var L = LESSONS[topic][lessonIdx];
+    var sec = L.sections[secIdx];
+    var last = secIdx === L.sections.length - 1;
+    return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        gap: 8,
+        alignItems: "center",
+        marginBottom: 16
+      }
+    }, /*#__PURE__*/React.createElement("button", {
+      style: S.btnG,
+      onClick: function onClick() {
+        return setView("hub");
+      }
+    }, "\u2190 ", m.label), /*#__PURE__*/React.createElement("span", {
+      style: S.tag(m.color)
+    }, "Lesson ", lessonIdx + 1)), /*#__PURE__*/React.createElement("h2", {
+      style: S.h2
+    }, L.title), /*#__PURE__*/React.createElement("div", {
+      style: _objectSpread(_objectSpread({}, S.sub), {}, {
+        marginBottom: 14
+      })
+    }, "Section ", secIdx + 1, " of ", L.sections.length), /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        gap: 6,
+        flexWrap: "wrap",
+        marginBottom: 16
+      }
+    }, L.sections.map(function (s, i) {
+      return /*#__PURE__*/React.createElement("button", {
+        key: i,
+        onClick: function onClick() {
+          return setSecIdx(i);
+        },
+        style: {
+          background: i === secIdx ? "".concat(m.color, "22") : "transparent",
+          border: "1px solid ".concat(i === secIdx ? m.color : "#222230"),
+          color: i === secIdx ? m.color : "#666058",
+          borderRadius: 6,
+          padding: "5px 12px",
+          fontFamily: ff,
+          fontSize: 11,
+          cursor: "pointer",
+          fontWeight: i === secIdx ? 600 : 400
+        }
+      }, s.heading);
+    })), /*#__PURE__*/React.createElement("div", {
+      style: _objectSpread(_objectSpread({}, S.prob), {}, {
+        borderLeft: "3px solid ".concat(m.color)
+      })
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontFamily: ff,
+        fontSize: 15,
+        fontWeight: 600,
+        color: "#f5f5f0",
+        marginBottom: 8
+      }
+    }, sec.heading), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 14,
+        lineHeight: 1.8,
+        whiteSpace: "pre-wrap",
+        color: "#c0bbae"
+      }
+    }, sec.body)), /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        gap: 8,
+        marginTop: 14
+      }
+    }, secIdx > 0 && /*#__PURE__*/React.createElement("button", {
+      style: S.btnG,
+      onClick: function onClick() {
+        return setSecIdx(secIdx - 1);
+      }
+    }, "\u2190 Previous"), !last && /*#__PURE__*/React.createElement("button", {
+      style: S.btn(m.color),
+      onClick: function onClick() {
+        return setSecIdx(secIdx + 1);
+      }
+    }, "Next Section \u2192"), last && L.practice.length > 0 && /*#__PURE__*/React.createElement("button", {
+      style: S.btn(m.color),
+      onClick: function onClick() {
+        return goPractice(topic, L.practice);
+      }
+    }, "Practice (", L.practice.length, " Qs) \u2192"), last && /*#__PURE__*/React.createElement("button", {
+      style: S.btnG,
+      onClick: function onClick() {
+        if (lessonIdx < LESSONS[topic].length - 1) {
+          setLessonIdx(lessonIdx + 1);
+          setSecIdx(0);
+        } else setView("hub");
+      }
+    }, lessonIdx < LESSONS[topic].length - 1 ? "Next Lesson →" : "Back to Hub")));
+  };
+  var Practice = function Practice() {
+    var p = probs[pi];
+    if (!p) return null;
+    var t = topicOf(p);
+    var m = TOPIC_META[t] || TOPIC_META.algebra;
+    var pct = (pi + 1) / probs.length * 100;
+    return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        marginBottom: 10
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        gap: 8,
+        alignItems: "center"
+      }
+    }, /*#__PURE__*/React.createElement("button", {
+      style: S.btnG,
+      onClick: function onClick() {
+        return setView("hub");
+      }
+    }, "\u2190 Back"), /*#__PURE__*/React.createElement("span", {
+      style: S.tag(m.color)
+    }, m.label)), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontFamily: ff,
+        fontSize: 12,
+        color: "#555048"
+      }
+    }, score.c, "/", score.t)), /*#__PURE__*/React.createElement("div", {
+      style: S.bar(m.color)
+    }, /*#__PURE__*/React.createElement("div", {
+      style: S.barF(pct, m.color)
+    })), /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        justifyContent: "space-between",
+        marginBottom: 8
+      }
+    }, /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontFamily: ff,
+        fontSize: 12,
+        color: "#444"
+      }
+    }, "Q ", pi + 1, "/", probs.length), /*#__PURE__*/React.createElement("span", null, S.dots(p.d))), /*#__PURE__*/React.createElement("div", {
+      style: S.prob
+    }, p.q), /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        gap: 8,
+        marginBottom: 10
+      }
+    }, /*#__PURE__*/React.createElement("input", {
+      ref: inputRef,
+      style: S.input,
+      value: ans,
+      onChange: function onChange(e) {
+        return setAns(e.target.value);
+      },
+      onKeyDown: function onKeyDown(e) {
+        return e.key === "Enter" && !fb && check();
+      },
+      placeholder: "Your answer\u2026",
+      disabled: !!fb
+    }), !fb ? /*#__PURE__*/React.createElement("button", {
+      style: S.btn(m.color),
+      onClick: check
+    }, "Check") : /*#__PURE__*/React.createElement("button", {
+      style: S.btn("#444"),
+      onClick: next
+    }, pi < probs.length - 1 ? "Next →" : "Restart")), fb && /*#__PURE__*/React.createElement("div", {
+      style: S.fbk(fb === "y")
+    }, fb === "y" ? "✓ Correct!" : "\u2717 Answer: ".concat(p.a)), /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        gap: 6
+      }
+    }, !showH && !showS && /*#__PURE__*/React.createElement("button", {
+      style: S.btnG,
+      onClick: function onClick() {
+        return setShowH(true);
+      }
+    }, "Hint"), /*#__PURE__*/React.createElement("button", {
+      style: S.btnG,
+      onClick: function onClick() {
+        return setShowS(!showS);
+      }
+    }, showS ? "Hide Solution" : "Solution")), showH && !showS && /*#__PURE__*/React.createElement("div", {
+      style: S.hint
+    }, p.hint), showS && /*#__PURE__*/React.createElement("div", {
+      style: S.sol
+    }, p.sol));
+  };
+  var Timed = function Timed() {
+    var cfg = ROUNDS[roundType];
+    var warn = timeLeft < 30;
+    if (tDone) {
+      var correct = Object.values(tAnswers).filter(function (a) {
+        return a.correct;
+      }).length;
+      return /*#__PURE__*/React.createElement("div", {
+        style: {
+          textAlign: "center"
+        }
+      }, /*#__PURE__*/React.createElement("div", {
+        style: {
+          fontSize: 10,
+          fontFamily: ff,
+          letterSpacing: 2,
+          textTransform: "uppercase",
+          color: "#555048",
+          marginBottom: 6
+        }
+      }, cfg.name, " Complete"), /*#__PURE__*/React.createElement("div", {
+        style: {
+          fontFamily: ff,
+          fontSize: 52,
+          fontWeight: 700,
+          color: correct >= probs.length * .7 ? "#2a9d8f" : "#e07a2f",
+          margin: "6px 0"
+        }
+      }, correct, "/", probs.length), /*#__PURE__*/React.createElement("p", {
+        style: {
+          color: "#555048",
+          marginBottom: 20,
+          fontSize: 14
+        }
+      }, correct === probs.length ? "Perfect!" : correct >= probs.length * .7 ? "Solid!" : "Review the solutions below."), /*#__PURE__*/React.createElement("div", {
+        style: {
+          textAlign: "left"
+        }
+      }, probs.map(function (p, i) {
+        var a = tAnswers[p.id];
+        var t2 = topicOf(p);
+        var m2 = TOPIC_META[t2];
+        var open = reviewId === p.id;
+        return /*#__PURE__*/React.createElement("div", {
+          key: p.id,
+          style: _objectSpread(_objectSpread({}, S.prob), {}, {
+            borderLeft: "3px solid ".concat(a !== null && a !== void 0 && a.correct ? "#2a9d8f" : "#e04040"),
+            padding: "12px 16px",
+            marginBottom: 6,
+            cursor: "pointer"
+          }),
+          onClick: function onClick() {
+            return setReviewId(open ? null : p.id);
+          }
+        }, /*#__PURE__*/React.createElement("div", {
+          style: {
+            display: "flex",
+            justifyContent: "space-between",
+            marginBottom: 3
+          }
+        }, /*#__PURE__*/React.createElement("span", {
+          style: {
+            fontSize: 11,
+            color: "#555048"
+          }
+        }, "Q", i + 1, " \xB7 ", /*#__PURE__*/React.createElement("span", {
+          style: {
+            color: m2 === null || m2 === void 0 ? void 0 : m2.color
+          }
+        }, m2 === null || m2 === void 0 ? void 0 : m2.label)), /*#__PURE__*/React.createElement("span", {
+          style: {
+            fontFamily: ff,
+            fontSize: 11,
+            color: a !== null && a !== void 0 && a.correct ? "#2a9d8f" : "#e04040"
+          }
+        }, a !== null && a !== void 0 && a.correct ? "✓" : "\u2717 you: ".concat((a === null || a === void 0 ? void 0 : a.given) || "—"))), /*#__PURE__*/React.createElement("div", {
+          style: {
+            fontSize: 13
+          }
+        }, p.q), /*#__PURE__*/React.createElement("div", {
+          style: {
+            fontSize: 12,
+            color: "#2a9d8f",
+            fontFamily: ff,
+            marginTop: 2
+          }
+        }, "Answer: ", p.a), open && /*#__PURE__*/React.createElement("div", {
+          style: S.sol
+        }, p.sol), /*#__PURE__*/React.createElement("div", {
+          style: {
+            fontSize: 10,
+            color: "#444",
+            marginTop: 4
+          }
+        }, open ? "▲ click to collapse" : "▼ click to see solution"));
+      })), /*#__PURE__*/React.createElement("div", {
+        style: {
+          display: "flex",
+          gap: 8,
+          justifyContent: "center",
+          marginTop: 16
+        }
+      }, /*#__PURE__*/React.createElement("button", {
+        style: S.btn(cfg.color),
+        onClick: function onClick() {
+          return goRound(roundType);
+        }
+      }, "Retry"), /*#__PURE__*/React.createElement("button", {
+        style: S.btnG,
+        onClick: reset
+      }, "Home")));
+    }
+    var p = probs[pi];
+    if (!p) return null;
+    var t2 = topicOf(p);
+    var m2 = TOPIC_META[t2] || TOPIC_META.algebra;
+    var pct = (pi + 1) / probs.length * 100;
+    return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        marginBottom: 6
+      }
+    }, /*#__PURE__*/React.createElement("button", {
+      style: S.btnG,
+      onClick: function onClick() {
+        setTDone(true);
+        setTimerOn(false);
+        clearInterval(intRef.current);
+      }
+    }, "End Round"), /*#__PURE__*/React.createElement("span", {
+      style: S.tag(m2.color)
+    }, m2.label)), /*#__PURE__*/React.createElement("div", {
+      style: S.timer(warn)
+    }, fmt(timeLeft)), /*#__PURE__*/React.createElement("div", {
+      style: S.bar(cfg.color)
+    }, /*#__PURE__*/React.createElement("div", {
+      style: S.barF(pct, cfg.color)
+    })), /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        justifyContent: "space-between",
+        marginBottom: 8
+      }
+    }, /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontFamily: ff,
+        fontSize: 12,
+        color: "#444"
+      }
+    }, cfg.name, " \xB7 Q", pi + 1, "/", probs.length), /*#__PURE__*/React.createElement("span", null, S.dots(p.d))), /*#__PURE__*/React.createElement("div", {
+      style: S.prob
+    }, p.q), /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        gap: 8,
+        marginBottom: 10
+      }
+    }, /*#__PURE__*/React.createElement("input", {
+      ref: inputRef,
+      style: S.input,
+      value: ans,
+      onChange: function onChange(e) {
+        return setAns(e.target.value);
+      },
+      onKeyDown: function onKeyDown(e) {
+        return e.key === "Enter" && !fb && check();
+      },
+      placeholder: "Answer\u2026",
+      disabled: !!fb
+    }), !fb ? /*#__PURE__*/React.createElement("button", {
+      style: S.btn(cfg.color),
+      onClick: check
+    }, "Submit") : /*#__PURE__*/React.createElement("button", {
+      style: S.btn("#444"),
+      onClick: next
+    }, pi < probs.length - 1 ? "Next →" : "Finish")), fb && /*#__PURE__*/React.createElement("div", {
+      style: S.fbk(fb === "y")
+    }, fb === "y" ? "✓" : "\u2717 ".concat(p.a)), !fb && /*#__PURE__*/React.createElement("button", {
+      style: S.btnG,
+      onClick: skip
+    }, "Skip"));
+  };
+  return /*#__PURE__*/React.createElement("div", {
+    style: S.page
+  }, /*#__PURE__*/React.createElement("link", {
+    href: "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Source+Sans+3:wght@400;500;600;700&display=swap",
+    rel: "stylesheet"
+  }), view === "home" && /*#__PURE__*/React.createElement(Home, null), view === "hub" && /*#__PURE__*/React.createElement(Hub, null), view === "lesson" && /*#__PURE__*/React.createElement(Lesson, null), view === "practice" && /*#__PURE__*/React.createElement(Practice, null), view === "timed" && /*#__PURE__*/React.createElement(Timed, null));
+}
+ReactDOM.createRoot(document.getElementById("root")).render(/*#__PURE__*/React.createElement(App, null));
+
+</script>
+</body>
+</html>

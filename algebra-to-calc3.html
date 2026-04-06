@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Algebra to Calculus 3</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:#f6f2ec;overflow-x:hidden;font-family:'Literata',Georgia,serif}
+  input:focus,textarea:focus{outline:none;border-color:#8b7355!important}
+  button{cursor:pointer;transition:all .15s}
+  button:active{transform:scale(.97)}
+  ::-webkit-scrollbar{width:6px}
+  ::-webkit-scrollbar-track{background:#f6f2ec}
+  ::-webkit-scrollbar-thumb{background:#ccc0aa;border-radius:3px}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+  .fade-up{animation:fadeUp .4s ease both}
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,400;7..72,500;7..72,600;7..72,700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+</head>
+<body>
+<div id="root"></div>
+<script>
+const {useState,useEffect,useRef} = React;
+
+const COURSES = [
+  {
+    id:"alg1", title:"Algebra I", sub:"Foundations", color:"#c2703e",
+    icon:"x", desc:"Variables, equations, functions — the language of math",
+    lessons:[
+      { title:"Linear Equations & Inequalities", sections:[
+        { h:"Solving Linear Equations", body:"A linear equation has the variable to the first power. Goal: isolate x.\n\nUse inverse operations — undo what's done to x:\n  3x + 7 = 22\n  3x = 15        (subtract 7 from both sides)\n  x = 5          (divide both sides by 3)\n\nGolden rule: whatever you do to one side, you MUST do to the other.\n\nVariables on both sides — collect them:\n  5x − 3 = 2x + 9\n  3x − 3 = 9       (subtract 2x)\n  3x = 12          (add 3)\n  x = 4\n\nDistributive property first:\n  2(3x − 1) − 4 = 3(x + 2)\n  6x − 2 − 4 = 3x + 6\n  6x − 6 = 3x + 6\n  3x = 12 → x = 4\n\nAlways verify by plugging your answer back into the ORIGINAL equation." },
+        { h:"Inequalities", body:"Same process as equations with ONE crucial exception:\n\n⚠️ Multiplying or dividing by a NEGATIVE number FLIPS the inequality sign.\n\n  −2x > 6\n  x < −3     (divided by −2, flipped > to <)\n\nCompound inequalities — solve all parts simultaneously:\n  −1 < 2x + 3 ≤ 9\n  −4 < 2x ≤ 6        (subtract 3 from all parts)\n  −2 < x ≤ 3         (divide all by 2)\n\nInterval notation: (−2, 3]\n  Parenthesis ( ) = NOT included (open)\n  Bracket [ ] = included (closed)\n  (−∞, 5) = all numbers less than 5\n  [2, ∞) = all numbers ≥ 2" },
+        { h:"Absolute Value Equations", body:"|x| = the DISTANCE from x to 0. Always non-negative.\n\n|x| = 5 means x = 5 OR x = −5 (two solutions).\n\n|expression| = k (where k > 0):\n  expression = k  OR  expression = −k\n\nExample: |2x − 3| = 7\n  2x − 3 = 7  →  x = 5\n  2x − 3 = −7 →  x = −2\n\n|expression| = 0: one solution (expression = 0)\n|expression| = negative: NO solution (absolute value can't be negative)\n\nAbsolute value inequalities:\n  |x| < 3  means  −3 < x < 3  (between)\n  |x| > 3  means  x < −3 OR x > 3  (outside)" },
+      ], problems:[
+        {q:"Solve: 4(x − 3) + 2 = 3x + 5",a:"15",sol:"4x−12+2=3x+5 → 4x−10=3x+5 → x=15.",h:"Distribute, combine like terms."},
+        {q:"Solve: −3x + 7 > 19",a:"x < -4",sol:"−3x > 12 → x < −4 (flip when dividing by negative).",h:"Remember to flip the inequality."},
+        {q:"Solve: |3x − 6| = 12",a:"6 and -2",sol:"3x−6=12 → x=6. 3x−6=−12 → x=−2.",h:"Split into two cases."},
+        {q:"The sum of three consecutive integers is 72. Find the largest.",a:"25",sol:"n+(n+1)+(n+2)=72 → 3n+3=72 → n=23. Largest=25.",h:"Let them be n, n+1, n+2."},
+      ]},
+      { title:"Quadratic Equations", sections:[
+        { h:"Factoring Method", body:"A quadratic equation: ax² + bx + c = 0.\n\nIf you can factor the left side, use the zero product property:\n  If AB = 0, then A = 0 or B = 0.\n\nExample: x² − 5x + 6 = 0\n  (x − 2)(x − 3) = 0\n  x = 2 or x = 3\n\nExample: 2x² + 7x + 3 = 0\n  (2x + 1)(x + 3) = 0\n  x = −1/2 or x = −3\n\nFor difference of squares: x² − 16 = 0 → (x−4)(x+4) = 0 → x = ±4" },
+        { h:"Completing the Square", body:"Transform ax² + bx + c into a(x − h)² + k form.\n\nProcess for x² + bx + c = 0:\n  1. Move c to the other side: x² + bx = −c\n  2. Add (b/2)² to both sides: x² + bx + (b/2)² = −c + (b/2)²\n  3. Factor left side: (x + b/2)² = −c + b²/4\n  4. Take square root of both sides.\n\nExample: x² + 6x + 2 = 0\n  x² + 6x = −2\n  x² + 6x + 9 = −2 + 9 = 7\n  (x + 3)² = 7\n  x + 3 = ±√7\n  x = −3 ± √7\n\nThis technique is also key for converting quadratics to vertex form." },
+        { h:"The Quadratic Formula & Discriminant", body:"For ax² + bx + c = 0:\n\n  x = (−b ± √(b² − 4ac)) / 2a\n\nThis ALWAYS works. Memorize it.\n\nThe discriminant Δ = b² − 4ac tells you the nature of solutions:\n  Δ > 0: two distinct real solutions\n  Δ = 0: one repeated real solution (perfect square)\n  Δ < 0: no real solutions (two complex solutions)\n\nExample: 2x² − 3x − 5 = 0\n  a=2, b=−3, c=−5\n  Δ = 9 − 4(2)(−5) = 9 + 40 = 49\n  x = (3 ± 7)/4\n  x = 10/4 = 5/2  or  x = −4/4 = −1\n\nVertex of the parabola y = ax² + bx + c:\n  x-coordinate = −b/(2a)\n  Then plug back in for y-coordinate." },
+      ], problems:[
+        {q:"Solve: x² − 9x + 20 = 0",a:"4 and 5",sol:"(x−4)(x−5)=0 → x=4 or x=5.",h:"Find two numbers that multiply to 20 and add to −9."},
+        {q:"Use the quadratic formula: 2x²+x−6=0. Find the positive root.",a:"3/2",sol:"x=(−1±√(1+48))/4=(−1±7)/4. Positive: 6/4=3/2.",h:"a=2, b=1, c=−6."},
+        {q:"What is the vertex of y = x² − 4x + 7?",a:"(2, 3)",sol:"x = −(−4)/(2·1) = 2. y = 4−8+7 = 3.",h:"x-vertex = −b/(2a)."},
+        {q:"How many real solutions: 3x² − 2x + 5 = 0?",a:"0",sol:"Δ = 4−60 = −56 < 0. No real solutions.",h:"Check the discriminant b²−4ac."},
+      ]},
+      { title:"Polynomials & Factoring", sections:[
+        { h:"Polynomial Operations", body:"A polynomial: 3x⁴ − 2x² + 7x − 1\n  Degree = 4 (highest exponent)\n  Leading coefficient = 3\n\nAdding/subtracting: combine like terms.\n\nMultiplying: distribute EVERY term.\n  (2x + 3)(x − 4) = 2x² − 8x + 3x − 12 = 2x² − 5x − 12\n\nSpecial products — MEMORIZE:\n  (a + b)² = a² + 2ab + b²\n  (a − b)² = a² − 2ab + b²\n  (a + b)(a − b) = a² − b²\n  (a + b)³ = a³ + 3a²b + 3ab² + b³" },
+        { h:"Factoring Techniques", body:"Try these IN ORDER:\n\n1. GCF first always: 6x² + 9x = 3x(2x + 3)\n\n2. Difference of squares: x² − 49 = (x−7)(x+7)\n\n3. Trinomial (a=1): x² + 7x + 12 = (x+3)(x+4)\n   Find two numbers that multiply to 12 and add to 7.\n\n4. Trinomial (a≠1) — AC method:\n   2x² + 7x + 3: AC = 6. Find 6 and 1 (multiply to 6, add to 7).\n   2x² + 6x + x + 3 = 2x(x+3) + 1(x+3) = (2x+1)(x+3)\n\n5. Grouping: ax + ay + bx + by = (a+b)(x+y)\n\n6. Sum/difference of cubes:\n   a³ + b³ = (a+b)(a² − ab + b²)\n   a³ − b³ = (a−b)(a² + ab + b²)\n   Mnemonic: SOAP (Same, Opposite, Always Positive)" },
+        { h:"Polynomial Division", body:"Long division works just like with numbers.\n\nSynthetic division (for dividing by x − c):\nExample: (2x³ − 5x² + 3x − 7) ÷ (x − 2)\n\n  2  | 2  −5   3  −7\n     |     4  −2    2\n     | 2  −1   1  −5\n\nQuotient: 2x² − x + 1, Remainder: −5\n\nRemainder Theorem: f(c) = remainder when f(x) ÷ (x−c).\n  So f(2) = −5 in the example above.\n\nFactor Theorem: (x−c) is a factor of f(x) if and only if f(c) = 0.\n  This helps you find roots: test possible rational roots ±(factors of constant)/(factors of leading coeff)." },
+      ], problems:[
+        {q:"Factor completely: 2x³ − 18x",a:"2x(x-3)(x+3)",sol:"2x(x²−9) = 2x(x−3)(x+3).",h:"GCF first, then difference of squares."},
+        {q:"Factor: 3x² + 11x + 6",a:"(3x+2)(x+3)",sol:"AC=18. Numbers: 9,2. Split: 3x²+9x+2x+6.",h:"AC method."},
+        {q:"Factor: x³ + 8",a:"(x+2)(x²-2x+4)",sol:"Sum of cubes: a=x, b=2. (x+2)(x²−2x+4).",h:"Sum of cubes formula."},
+        {q:"Divide (x³−2x²−5x+6) by (x−3) using synthetic division. What's the quotient?",a:"x²+x-2",sol:"3 | 1 −2 −5  6 → 1  1  −2  0. Quotient: x²+x−2.",h:"Set up synthetic division with c=3."},
+      ]},
+      { title:"Systems of Equations", sections:[
+        { h:"Substitution Method", body:"Solve one equation for one variable, plug into the other.\n\n  y = 2x + 1\n  3x + y = 11\n\nSubstitute: 3x + (2x+1) = 11 → 5x = 10 → x = 2, y = 5.\n\nBest when one equation already has a variable isolated.\n\nNon-linear systems work the same way:\n  y = x²\n  y = 2x + 3\n  x² = 2x + 3 → x² − 2x − 3 = 0 → (x−3)(x+1) = 0\n  x = 3 → y = 9, or x = −1 → y = 1" },
+        { h:"Elimination Method", body:"Add or subtract equations to eliminate a variable.\n\n  2x + 3y = 12\n  4x − 3y = 6\n  Add: 6x = 18 → x = 3 → y = 2\n\nIf variables don't cancel naturally, multiply:\n  3x + 2y = 7    → multiply by 3: 9x + 6y = 21\n  2x + 3y = 8    → multiply by −2: −4x − 6y = −16\n  Add: 5x = 5 → x = 1 → y = 2\n\nThree equations, three unknowns:\n  Use elimination twice to reduce to 2 variables.\n  Then solve that 2×2 system normally." },
+        { h:"Word Problems with Systems", body:"Age problems:\n  \"Tom is 4 years older than Sue. In 5 years, Tom will be twice Sue's age.\"\n  t = s + 4\n  t + 5 = 2(s + 5)\n  (s+4) + 5 = 2s + 10 → s = −1 → impossible? Check setup.\n  Actually: s + 9 = 2s + 10 → s = −1. Ages can't be negative — no solution.\n\nMixture problems:\n  \"Mix 20% acid with 50% acid to get 10L of 30% acid.\"\n  x + y = 10\n  0.2x + 0.5y = 0.3(10) = 3\n  0.2x + 0.5(10−x) = 3 → 0.2x + 5 − 0.5x = 3 → x = 6.67L" },
+      ], problems:[
+        {q:"Solve: x+y=10, x−y=4. Find x.",a:"7",sol:"Add: 2x=14 → x=7.",h:"Add the equations."},
+        {q:"Solve: 2x+3y=1, 4x−y=9. Find y.",a:"-1",sol:"From eq2: y=4x−9. Sub: 2x+3(4x−9)=1 → 14x=28 → x=2, y=−1.",h:"Substitution or elimination."},
+        {q:"Solve: y=x², y=x+2. Find the positive x value.",a:"2",sol:"x²=x+2 → x²−x−2=0 → (x−2)(x+1)=0. Positive: x=2.",h:"Set the expressions equal."},
+      ]},
+      { title:"Radicals & Rational Expressions", sections:[
+        { h:"Radical Expressions", body:"√x = x^(1/2). In general: ⁿ√x = x^(1/n).\n\nKey rules:\n  √(ab) = √a · √b\n  √(a/b) = √a / √b\n  (√a)² = a\n  √(a²) = |a|\n\nSimplifying: √50 = √(25·2) = 5√2\n  √(72) = √(36·2) = 6√2\n  ³√(54) = ³√(27·2) = 3³√2\n\nRationalizing denominators:\n  1/√3 = √3/3  (multiply top and bottom by √3)\n  1/(√5−√2) = (√5+√2)/((√5)²−(√2)²) = (√5+√2)/3\n  (multiply by conjugate)" },
+        { h:"Rational Expressions", body:"A rational expression is a fraction with polynomials.\n\nSimplifying: factor and cancel common factors.\n  (x²−4)/(x²−4x+4) = (x−2)(x+2)/(x−2)² = (x+2)/(x−2)\n\n⚠️ Note the restriction: x ≠ 2 (even after canceling).\n\nAdding/subtracting: find LCD (least common denominator).\n  1/x + 1/(x+1) = (x+1+x)/(x(x+1)) = (2x+1)/(x(x+1))\n\nMultiplying: multiply straight across, then simplify.\nDividing: multiply by the reciprocal.\n\nSolving rational equations:\n  Multiply EVERYTHING by the LCD to clear fractions.\n  Then solve the resulting equation.\n  ⚠️ CHECK for extraneous solutions (values that make denominators 0)." },
+      ], problems:[
+        {q:"Simplify: √(200)",a:"10√2",sol:"√(100·2) = 10√2.",h:"Find the largest perfect square factor."},
+        {q:"Rationalize: 6/(√3)",a:"2√3",sol:"6√3/(√3·√3) = 6√3/3 = 2√3.",h:"Multiply by √3/√3."},
+        {q:"Simplify: (x²−9)/(x²+5x+6)",a:"(x-3)/(x+2)",sol:"(x−3)(x+3)/((x+2)(x+3)) = (x−3)/(x+2).",h:"Factor both numerator and denominator."},
+        {q:"Solve: 2/x + 3/(x+1) = 1. Find the positive solution.",a:"5",sol:"Multiply by x(x+1): 2(x+1)+3x = x(x+1) → 5x+2=x²+x → x²−4x−2=0... Actually: 2(x+1)+3x=x²+x → 2x+2+3x=x²+x → x²−4x−2=0 → x=(4±√24)/2=2±√6. Positive: 2+√6≈4.45. Hmm, let me recheck. 2/x+3/(x+1)=1. LCD=x(x+1). 2(x+1)+3x=x(x+1). 2x+2+3x=x²+x. 5x+2=x²+x. x²−4x−2=0. x=(4±√(16+8))/2=(4±√24)/2=2±√6. So x=2+√6.",a:"2+√6",sol:"LCD: x(x+1). 2(x+1)+3x=x(x+1). 5x+2=x²+x. x²−4x−2=0. x=(4±√24)/2=2±√6. Positive: 2+√6.",h:"Multiply everything by x(x+1)."},
+      ]},
+    ]
+  },
+  {
+    id:"alg2", title:"Algebra II", sub:"& Precalculus", color:"#7a6a4f",
+    icon:"f(x)", desc:"Functions, logarithms, conics — building toward calculus",
+    lessons:[
+      { title:"Functions Deep Dive", sections:[
+        { h:"Function Fundamentals", body:"A function f assigns exactly ONE output to each input.\n\nf(x) = 2x + 3 → \"take x, double it, add 3.\"\n\nDomain: set of all valid inputs.\n  Watch for: division by zero (denominator ≠ 0)\n             square roots of negatives (radicand ≥ 0)\n             log of non-positive (argument > 0)\n\nRange: set of all possible outputs.\n\nExample: f(x) = √(x − 3)\n  Domain: x ≥ 3, or [3, ∞)\n  Range: y ≥ 0, or [0, ∞)\n\nPiecewise functions:\n  f(x) = { x²    if x < 0\n          { 2x+1  if x ≥ 0\n  f(−3) = 9, f(2) = 5" },
+        { h:"Composition & Inverses", body:"Composition: (f∘g)(x) = f(g(x)) — feed g's output into f.\n  If f(x)=2x+1, g(x)=x²: (f∘g)(3) = f(9) = 19.\n  (f∘g)(x) = 2x²+1. Note: (g∘f)(x) = (2x+1)² = 4x²+4x+1. Order matters!\n\nInverse: f⁻¹ undoes f. If f(2) = 7, then f⁻¹(7) = 2.\n\nFinding f⁻¹:\n  1. Write y = f(x)\n  2. Swap x and y\n  3. Solve for y\n\nExample: f(x) = (2x+3)/5\n  y = (2x+3)/5\n  x = (2y+3)/5\n  5x = 2y+3\n  y = (5x−3)/2\n  f⁻¹(x) = (5x−3)/2\n\nVerification: f(f⁻¹(x)) = x and f⁻¹(f(x)) = x.\n\nA function has an inverse iff it passes the horizontal line test (one-to-one)." },
+        { h:"Transformations", body:"Starting from y = f(x):\n\n  y = f(x) + k      → shift UP k\n  y = f(x) − k      → shift DOWN k\n  y = f(x − h)      → shift RIGHT h  (counterintuitive!)\n  y = f(x + h)      → shift LEFT h\n  y = a·f(x)        → vertical stretch by |a|\n  y = f(bx)         → horizontal compress by |b|\n  y = −f(x)         → reflect over x-axis\n  y = f(−x)         → reflect over y-axis\n\nOrder of operations:\n  Inside transformations (horizontal) happen first.\n  Outside transformations (vertical) happen second.\n\nExample: y = −2f(x − 3) + 1\n  1. Shift right 3\n  2. Vertical stretch ×2\n  3. Reflect over x-axis\n  4. Shift up 1" },
+      ], problems:[
+        {q:"If f(x)=x²−1, find f(f(2)).",a:"8",sol:"f(2)=3. f(3)=8.",h:"Compute inside-out."},
+        {q:"If f(x)=3x+2, find f⁻¹(x).",a:"(x-2)/3",sol:"y=3x+2 → x=(y−2)/3.",h:"Swap x and y, solve for y."},
+        {q:"Find the domain of f(x) = √(5−2x).",a:"x ≤ 5/2",sol:"5−2x ≥ 0 → x ≤ 5/2.",h:"Radicand must be ≥ 0."},
+        {q:"If f(x)=2x−1 and g(x)=x+3, find (f∘g)(4).",a:"13",sol:"g(4)=7. f(7)=13.",h:"Compute g first, then f."},
+      ]},
+      { title:"Exponentials & Logarithms", sections:[
+        { h:"Exponential Functions", body:"f(x) = aˣ where a > 0, a ≠ 1.\n\nExponent rules:\n  a⁰ = 1\n  aˣ · aʸ = aˣ⁺ʸ\n  (aˣ)ʸ = aˣʸ\n  aˣ / aʸ = aˣ⁻ʸ\n  a⁻ˣ = 1/aˣ\n  a^(m/n) = ⁿ√(aᵐ)\n\nThe special base e ≈ 2.71828:\n  f(x) = eˣ is THE exponential function.\n  It equals its own derivative (you'll see in calculus!).\n\nGrowth: f(x) = A·eᵏˣ (k > 0) — population, compound interest.\nDecay: f(x) = A·e⁻ᵏˣ (k > 0) — radioactive decay, cooling.\n\nCompound interest: A = P(1 + r/n)^(nt)\nContinuous: A = Peʳᵗ" },
+        { h:"Logarithms", body:"log_a(x) = y means aʸ = x.\n\"What EXPONENT of a gives x?\"\n\n  log₂(8) = 3  because 2³ = 8\n  log₁₀(1000) = 3  because 10³ = 1000\n  ln(x) = log_e(x)  (natural log)\n\nLog Laws (exponent rules in disguise):\n  log(AB) = log A + log B    (product → sum)\n  log(A/B) = log A − log B   (quotient → difference)\n  log(Aⁿ) = n·log A          (power → coefficient)\n  log_a(1) = 0\n  log_a(a) = 1\n  a^(log_a(x)) = x           (they cancel)\n\nChange of base: log_a(x) = ln(x)/ln(a) = log(x)/log(a)" },
+        { h:"Solving Equations", body:"Exponential equation → take log:\n  3ˣ = 81 → x·ln 3 = ln 81 → x = 4\n  5^(2x+1) = 125 → 5^(2x+1) = 5³ → 2x+1 = 3 → x = 1\n\nLog equation → convert to exponential:\n  log₂(x−1) = 5 → x−1 = 32 → x = 33\n\nHarder:\n  log(x) + log(x−3) = 1\n  log(x(x−3)) = 1 → x²−3x = 10\n  x²−3x−10 = 0 → (x−5)(x+2) = 0\n  x = 5 ✓ (x = −2 fails: log(−2) undefined)\n\n⚠️ ALWAYS check that log arguments are positive!" },
+      ], problems:[
+        {q:"Solve: 2ˣ = 64",a:"6",sol:"64 = 2⁶ → x = 6.",h:"Express 64 as a power of 2."},
+        {q:"Simplify: log₃(27) + log₃(9)",a:"5",sol:"3 + 2 = 5.",h:"27=3³, 9=3²."},
+        {q:"Solve: log₂(x) + log₂(x+6) = 4",a:"2",sol:"log₂(x²+6x) = 4 → x²+6x = 16 → (x+8)(x−2) = 0. x = 2.",h:"Combine logs, convert to exponential."},
+        {q:"Solve: e^(2x) = 7. Express answer with ln.",a:"ln(7)/2",sol:"2x = ln 7 → x = ln(7)/2.",h:"Take natural log of both sides."},
+        {q:"Expand: log₂(8x³/y)",a:"3 + 3log₂(x) - log₂(y)",sol:"log₂(8)+log₂(x³)−log₂(y) = 3+3log₂(x)−log₂(y).",h:"Use product, quotient, and power rules."},
+      ]},
+      { title:"Complex Numbers & Polynomial Theory", sections:[
+        { h:"Complex Numbers", body:"i = √(−1), so i² = −1.\n\nA complex number: a + bi (a = real part, b = imaginary part).\n\nArithmetic:\n  (3+2i) + (1−4i) = 4−2i\n  (3+2i)(1−4i) = 3−12i+2i−8i² = 3−10i+8 = 11−10i\n\nConjugate of a+bi is a−bi. Useful for division:\n  (2+3i)/(1−i) = (2+3i)(1+i)/((1−i)(1+i)) = (2+2i+3i+3i²)/(1+1)\n  = (−1+5i)/2 = −1/2 + 5i/2\n\nPowers of i cycle: i¹=i, i²=−1, i³=−i, i⁴=1, i⁵=i, …\nSo iⁿ depends on n mod 4." },
+        { h:"Polynomial Theorems", body:"Fundamental Theorem of Algebra:\n  Every polynomial of degree n has EXACTLY n roots (counting multiplicity, including complex).\n\nComplex Conjugate Root Theorem:\n  If polynomial has REAL coefficients and a+bi is a root, then a−bi is also a root.\n  Complex roots come in conjugate pairs!\n\nRational Root Theorem:\n  Possible rational roots of aₙxⁿ+…+a₀ are ±(factors of a₀)/(factors of aₙ).\n\nDescartes' Rule of Signs:\n  # positive real roots ≤ # sign changes in f(x)\n  # negative real roots ≤ # sign changes in f(−x)\n  (and has same parity — differs by multiples of 2)" },
+      ], problems:[
+        {q:"Simplify: (2+3i)(4−i)",a:"11+10i",sol:"8−2i+12i−3i² = 8+10i+3 = 11+10i.",h:"FOIL and use i²=−1."},
+        {q:"What is i⁴⁷?",a:"-i",sol:"47 mod 4 = 3. i³ = −i.",h:"Powers of i cycle every 4."},
+        {q:"If 2+i is a root of a polynomial with real coefficients, name another root.",a:"2-i",sol:"Complex roots come in conjugate pairs.",h:"Complex Conjugate Root Theorem."},
+      ]},
+      { title:"Sequences, Series & Induction", sections:[
+        { h:"Arithmetic Sequences", body:"Constant difference d between consecutive terms.\n  a, a+d, a+2d, a+3d, …\n\nFormulas:\n  nth term: aₙ = a₁ + (n−1)d\n  Sum of first n: Sₙ = n(a₁ + aₙ)/2 = n(2a₁ + (n−1)d)/2\n\nExample: 3, 7, 11, 15, … (d = 4)\n  20th term: 3 + 19(4) = 79\n  Sum of first 20: 20(3+79)/2 = 820\n\nTrick: The sum formula is just (number of terms) × (average of first and last)." },
+        { h:"Geometric Sequences", body:"Constant ratio r between consecutive terms.\n  a, ar, ar², ar³, …\n\nFormulas:\n  nth term: aₙ = a₁·rⁿ⁻¹\n  Finite sum: Sₙ = a₁(1−rⁿ)/(1−r)  [r≠1]\n  Infinite sum (|r|<1): S∞ = a₁/(1−r)\n\nExample: 3, 6, 12, 24, … (r = 2)\n  8th term: 3·2⁷ = 384\n  Sum of 8: 3(1−256)/(1−2) = 765\n\nInfinite: 1 + 1/2 + 1/4 + … = 1/(1−1/2) = 2\n\nWhen |r| ≥ 1, the infinite sum DIVERGES (goes to infinity)." },
+        { h:"Mathematical Induction", body:"Proving statements for all positive integers n:\n\nStep 1 (Base case): Verify the statement for n = 1.\nStep 2 (Inductive step): Assume true for n = k. Prove true for n = k+1.\n\nExample: Prove 1+2+3+…+n = n(n+1)/2.\n\nBase: n=1: 1 = 1(2)/2 = 1 ✓\n\nInductive step: Assume 1+2+…+k = k(k+1)/2.\nAdd (k+1) to both sides:\n  1+2+…+k+(k+1) = k(k+1)/2 + (k+1)\n  = (k+1)(k/2 + 1) = (k+1)(k+2)/2 ✓\n\nThis is like dominoes: knock over the first, and each one knocks over the next." },
+      ], problems:[
+        {q:"Arithmetic: a₁=5, d=3. Find the 50th term.",a:"152",sol:"a₅₀ = 5 + 49(3) = 152.",h:"aₙ = a₁ + (n−1)d."},
+        {q:"Geometric: first term 4, ratio 3. Find S₆.",a:"1456",sol:"S₆ = 4(1−729)/(1−3) = 4(728)/2 = 1456.",h:"Use the finite sum formula."},
+        {q:"Find: 8 + 4 + 2 + 1 + 1/2 + … (infinite)",a:"16",sol:"a=8, r=1/2. S = 8/(1−1/2) = 16.",h:"Geometric with |r|<1."},
+        {q:"Sum of first 100 positive integers?",a:"5050",sol:"100(101)/2 = 5050.",h:"Arithmetic sum: n(n+1)/2."},
+      ]},
+    ]
+  },
+  {
+    id:"trig", title:"Trigonometry", sub:"Angles & Waves", color:"#4a7c6f",
+    icon:"θ", desc:"Connecting angles, ratios, and circular motion",
+    lessons:[
+      { title:"Trig Functions & Unit Circle", sections:[
+        { h:"Right Triangle Trig", body:"For a RIGHT triangle with angle θ:\n\n  sin θ = Opposite / Hypotenuse\n  cos θ = Adjacent / Hypotenuse\n  tan θ = Opposite / Adjacent = sin θ / cos θ\n\nReciprocals:\n  csc θ = 1/sin θ   (cosecant)\n  sec θ = 1/cos θ   (secant)\n  cot θ = 1/tan θ   (cotangent)\n\nCommon triangles:\n  3-4-5 (and multiples: 6-8-10, 5-12-13)\n  45-45-90: legs = 1, hyp = √2\n  30-60-90: short = 1, long = √3, hyp = 2" },
+        { h:"The Unit Circle", body:"Circle of radius 1, center at origin.\nPoint at angle θ = (cos θ, sin θ).\n\nKEY VALUES — memorize this table:\n\n  0°   = 0      sin=0     cos=1\n  30°  = π/6    sin=1/2   cos=√3/2\n  45°  = π/4    sin=√2/2  cos=√2/2\n  60°  = π/3    sin=√3/2  cos=1/2\n  90°  = π/2    sin=1     cos=0\n  180° = π      sin=0     cos=−1\n  270° = 3π/2   sin=−1    cos=0\n\nPattern for sin: √0/2, √1/2, √2/2, √3/2, √4/2\n\nQuadrant signs (All Students Take Calculus):\n  Q1: all positive\n  Q2: sin positive\n  Q3: tan positive\n  Q4: cos positive\n\nReference angle: the acute angle to the x-axis." },
+        { h:"Fundamental Identities", body:"Pythagorean:\n  sin²θ + cos²θ = 1\n  1 + tan²θ = sec²θ\n  1 + cot²θ = csc²θ\n\nDouble angle:\n  sin 2θ = 2 sin θ cos θ\n  cos 2θ = cos²θ − sin²θ = 2cos²θ − 1 = 1 − 2sin²θ\n  tan 2θ = 2tan θ/(1 − tan²θ)\n\nHalf angle:\n  sin(θ/2) = ±√((1−cosθ)/2)\n  cos(θ/2) = ±√((1+cosθ)/2)\n\nSum/difference:\n  sin(A±B) = sinA cosB ± cosA sinB\n  cos(A±B) = cosA cosB ∓ sinA sinB\n  tan(A±B) = (tanA ± tanB)/(1 ∓ tanA tanB)\n\nProduct-to-sum and sum-to-product formulas exist too — look them up as needed." },
+      ], problems:[
+        {q:"Find sin(5π/6).",a:"1/2",sol:"Ref angle π/6 in Q2. sin positive. sin(π/6)=1/2.",h:"Reference angle in Q2."},
+        {q:"If sin θ = 3/5 and θ in Q1, find cos θ.",a:"4/5",sol:"cos²θ = 1−9/25 = 16/25. cos θ = 4/5.",h:"Use sin²+cos²=1."},
+        {q:"Simplify: (1−cos²x)/sin x",a:"sin x",sol:"sin²x/sin x = sin x.",h:"Use sin²x = 1−cos²x."},
+        {q:"Find the exact value of cos(75°).",a:"(√6-√2)/4",sol:"cos(45°+30°) = cos45·cos30 − sin45·sin30 = (√2/2)(√3/2) − (√2/2)(1/2) = (√6−√2)/4.",h:"Use the sum formula cos(45°+30°)."},
+      ]},
+      { title:"Graphing Trig Functions", sections:[
+        { h:"Sine & Cosine Graphs", body:"y = A sin(Bx − C) + D\n\n  |A| = amplitude (height from midline to peak)\n  Period = 2π/|B| (horizontal length of one cycle)\n  C/B = phase shift (horizontal shift)\n  D = vertical shift (midline)\n\nExample: y = 3sin(2x − π) + 1\n  Amplitude: 3\n  Period: 2π/2 = π\n  Phase shift: π/2 right\n  Midline: y = 1\n  Range: [−2, 4]\n\nCosine is just sine shifted left by π/2:\n  cos x = sin(x + π/2)" },
+        { h:"Tangent, Secant & Others", body:"tan x: period π, vertical asymptotes at x = π/2 + nπ.\n  Range: all reals. No amplitude.\n\ncot x: period π, asymptotes at x = nπ.\n\nsec x = 1/cos x: U-shaped curves, asymptotes where cos = 0.\ncsc x = 1/sin x: U-shaped curves, asymptotes where sin = 0.\n\nFor y = A tan(Bx − C) + D:\n  Period = π/|B|\n  Phase shift = C/B\n  No amplitude (goes to ±∞)" },
+        { h:"Inverse Trig Functions", body:"arcsin(x) = sin⁻¹(x): what angle has sine x?\n  Domain: [−1,1]. Range: [−π/2, π/2]\n\narccos(x): Domain: [−1,1]. Range: [0, π]\n\narctan(x): Domain: all reals. Range: (−π/2, π/2)\n\nExamples:\n  sin⁻¹(1/2) = π/6\n  cos⁻¹(−1) = π\n  tan⁻¹(1) = π/4\n  sin⁻¹(−√2/2) = −π/4\n\nCompositions:\n  sin(arcsin x) = x always.\n  arcsin(sin x) = x only if x ∈ [−π/2, π/2].\n\nTriangle trick: sin(arctan(3/4)) = 3/5 (draw the right triangle!)." },
+      ], problems:[
+        {q:"Period of y = sin(3x)?",a:"2π/3",sol:"Period = 2π/B = 2π/3.",h:"Period = 2π/B."},
+        {q:"Amplitude and period of y = −4cos(πx)?",a:"4 and 2",sol:"Amplitude=|−4|=4. Period=2π/π=2.",h:"|A| and 2π/B."},
+        {q:"arctan(√3) in radians?",a:"π/3",sol:"tan(π/3) = √3.",h:"Which angle has tangent √3?"},
+      ]},
+      { title:"Solving Trig Equations", sections:[
+        { h:"Basic Trig Equations", body:"sin x = 1/2: which angles on the unit circle have sine = 1/2?\n  x = π/6 and x = 5π/6 (in [0, 2π))\n  General solution: x = π/6 + 2nπ  or  x = 5π/6 + 2nπ\n\ncos x = −√2/2:\n  x = 3π/4 and x = 5π/4 (in [0, 2π))\n\ntan x = 1:\n  x = π/4 (period of tan is π)\n  General: x = π/4 + nπ\n\nProcess:\n  1. Isolate the trig function.\n  2. Find reference angle.\n  3. Determine which quadrants (based on sign).\n  4. Write all solutions in the given interval (or general form)." },
+        { h:"Advanced Trig Equations", body:"Equations that need identities first:\n\nExample: 2sin²x − sinx − 1 = 0\n  Let u = sin x: 2u² − u − 1 = 0\n  (2u+1)(u−1) = 0 → u = −1/2 or u = 1\n  sin x = −1/2: x = 7π/6, 11π/6\n  sin x = 1: x = π/2\n\nExample: sin 2x = cos x\n  2sinx cosx = cosx\n  cosx(2sinx − 1) = 0\n  cosx = 0 → x = π/2, 3π/2\n  sinx = 1/2 → x = π/6, 5π/6\n\n⚠️ Never divide both sides by a trig function — you'll lose solutions!" },
+      ], problems:[
+        {q:"Find all x in [0,2π): cos x = −1/2",a:"2π/3 and 4π/3",sol:"Reference angle π/3. cos negative in Q2,Q3.",h:"cos is negative in Q2 and Q3."},
+        {q:"Solve in [0,2π): 2sin²x = 1",a:"π/4, 3π/4, 5π/4, 7π/4",sol:"sin²x=1/2 → sinx=±√2/2. Four solutions.",h:"Isolate sin²x first."},
+      ]},
+      { title:"Law of Sines, Cosines & Polar", sections:[
+        { h:"Law of Sines", body:"For ANY triangle (not just right triangles):\n\n  a/sin A = b/sin B = c/sin C = 2R\n\nwhere R = circumradius.\n\nUse when: you know AAS, ASA, or SSA (ambiguous case).\n\nAmbiguous case (SSA): given a, b, angle A:\n  If a < b·sin A → no triangle\n  If a = b·sin A → one right triangle\n  If b·sin A < a < b → two triangles!\n  If a ≥ b → one triangle" },
+        { h:"Law of Cosines", body:"c² = a² + b² − 2ab·cos C\n\n(When C = 90°, this reduces to Pythagorean theorem!)\n\nUse when: SAS (two sides + included angle) or SSS (all three sides).\n\nFinding an angle from three sides:\n  cos C = (a² + b² − c²)/(2ab)\n\nExample: sides 5, 7, 8. Find the largest angle (opposite side 8).\n  cos C = (25+49−64)/70 = 10/70 = 1/7\n  C = arccos(1/7) ≈ 81.8°" },
+        { h:"Polar Coordinates", body:"Instead of (x,y), use (r, θ):\n  x = r cos θ,  y = r sin θ\n  r = √(x²+y²),  θ = arctan(y/x) (adjust for quadrant)\n\nCommon polar curves:\n  r = a → circle of radius a\n  r = 2a cos θ → circle through origin\n  r = a + b cos θ → limaçon (cardioid if a = b)\n  r = a cos(nθ) → rose with n petals (2n if n even)\n  r² = a² cos(2θ) → lemniscate\n\nArea in polar: A = (1/2)∫ r² dθ\n(You'll use this in Calc 2!)" },
+      ], problems:[
+        {q:"Triangle: A=30°, a=5, b=8. Find sin B.",a:"4/5",sol:"sin B/b = sin A/a → sin B = 8·sin30°/5 = 8(1/2)/5 = 4/5.",h:"Law of Sines."},
+        {q:"Triangle sides 3,4,5. Find the angle opposite side 5.",a:"90°",sol:"cos C = (9+16−25)/24 = 0 → C = 90°.",h:"Law of Cosines."},
+        {q:"Convert (3, 3) to polar.",a:"(3√2, π/4)",sol:"r=√(9+9)=3√2. θ=arctan(1)=π/4.",h:"r=√(x²+y²), θ=arctan(y/x)."},
+      ]},
+    ]
+  },
+  {
+    id:"calc1", title:"Calculus I", sub:"Limits & Derivatives", color:"#c25454",
+    icon:"f'", desc:"The mathematics of change and motion",
+    lessons:[
+      { title:"Limits", sections:[
+        { h:"What is a Limit?", body:"lim[x→a] f(x) = L means: as x gets CLOSE to a, f(x) gets CLOSE to L.\n\nThe function doesn't need to equal L at a. Limits are about APPROACH.\n\nEvaluation strategies (try in order):\n  1. Direct substitution: plug in a. If it works, done!\n  2. If 0/0 (indeterminate): factor, cancel, retry.\n  3. Rationalize: multiply by conjugate for roots.\n  4. L'Hôpital's Rule: if 0/0 or ∞/∞, differentiate top & bottom.\n\nExample:\n  lim[x→3] (x²−9)/(x−3)\n  Direct sub: 0/0. Factor: (x−3)(x+3)/(x−3) = x+3.\n  lim = 6.\n\nOne-sided limits:\n  lim[x→a⁺] (from right) and lim[x→a⁻] (from left).\n  The two-sided limit exists iff both one-sided limits exist and are equal." },
+        { h:"Limits at Infinity & Special Limits", body:"Limits at infinity — what happens as x → ∞?\n\nRational functions: divide by highest power of x.\n  lim[x→∞] (3x²+1)/(5x²−2) = 3/5\n  lim[x→∞] (2x)/(x²+1) = 0  (lower degree on top)\n  lim[x→∞] (x³)/(x+1) = ∞  (higher degree on top)\n\nKey special limits:\n  lim[x→0] sin(x)/x = 1\n  lim[x→0] (1−cos x)/x = 0\n  lim[x→0] (eˣ−1)/x = 1\n  lim[n→∞] (1 + 1/n)ⁿ = e\n  lim[x→∞] eˣ = ∞\n  lim[x→−∞] eˣ = 0\n  lim[x→0⁺] ln x = −∞\n  lim[x→∞] ln x = ∞ (but slower than any power)" },
+        { h:"Continuity", body:"f is continuous at x = a if:\n  1. f(a) exists\n  2. lim[x→a] f(x) exists\n  3. lim[x→a] f(x) = f(a)\n\nTypes of discontinuity:\n  Removable (hole): limit exists but f(a) is wrong or missing.\n  Jump: left and right limits exist but differ.\n  Infinite (asymptote): function blows up.\n\nIntermediate Value Theorem (IVT):\n  If f is continuous on [a,b] and N is between f(a) and f(b),\n  then there exists c in (a,b) with f(c) = N.\n\n  Application: proving a root exists.\n  If f(1) = −2 and f(3) = 5, and f is continuous,\n  then f(c) = 0 for some c ∈ (1,3)." },
+      ], problems:[
+        {q:"lim[x→2] (x²−4)/(x−2)",a:"4",sol:"(x−2)(x+2)/(x−2) = x+2 → 4.",h:"Factor."},
+        {q:"lim[x→∞] (5x³−2x)/(3x³+1)",a:"5/3",sol:"Divide by x³: (5−2/x²)/(3+1/x³) → 5/3.",h:"Divide by highest power."},
+        {q:"lim[x→0] sin(5x)/x",a:"5",sol:"5·sin(5x)/(5x) → 5·1 = 5.",h:"Rewrite as 5·[sin(5x)/(5x)]."},
+        {q:"lim[x→0] (eˣ−1)/(2x)",a:"1/2",sol:"(1/2)·lim (eˣ−1)/x = (1/2)·1 = 1/2.",h:"Use the special limit (eˣ−1)/x → 1."},
+      ]},
+      { title:"Derivative Rules", sections:[
+        { h:"Definition & Power Rule", body:"f'(x) = lim[h→0] (f(x+h) − f(x))/h\n= instantaneous rate of change = slope of tangent line.\n\nPower Rule: d/dx [xⁿ] = nxⁿ⁻¹\n  d/dx [x⁵] = 5x⁴\n  d/dx [x] = 1\n  d/dx [constant] = 0\n  d/dx [√x] = d/dx [x^½] = ½x^(−½) = 1/(2√x)\n  d/dx [1/x] = d/dx [x⁻¹] = −x⁻² = −1/x²\n\nLinearity:\n  d/dx [cf(x)] = c·f'(x)\n  d/dx [f ± g] = f' ± g'\n\nSpecial derivatives — MEMORIZE:\n  d/dx [eˣ] = eˣ         d/dx [ln x] = 1/x\n  d/dx [sin x] = cos x    d/dx [cos x] = −sin x\n  d/dx [tan x] = sec²x    d/dx [sec x] = sec x tan x\n  d/dx [aˣ] = aˣ ln a     d/dx [log_a x] = 1/(x ln a)" },
+        { h:"Product, Quotient & Chain Rules", body:"Product Rule: (fg)' = f'g + fg'\n  d/dx [x²·sin x] = 2x·sin x + x²·cos x\n\nQuotient Rule: (f/g)' = (f'g − fg')/g²\n  d/dx [sin x/x] = (cos x · x − sin x)/x²\n\nChain Rule: d/dx [f(g(x))] = f'(g(x)) · g'(x)\n  \"Derivative of outside × derivative of inside\"\n\n  d/dx [sin(3x)] = cos(3x) · 3\n  d/dx [(x²+1)⁵] = 5(x²+1)⁴ · 2x\n  d/dx [e^(x²)] = e^(x²) · 2x\n  d/dx [ln(sin x)] = (1/sin x) · cos x = cot x\n  d/dx [√(3x+1)] = (1/(2√(3x+1))) · 3\n\nThe chain rule is the MOST used rule. Practice it extensively." },
+        { h:"Implicit & Logarithmic Differentiation", body:"Implicit differentiation: when y is NOT explicitly solved.\n  x² + y² = 25\n  Differentiate both sides w.r.t. x:\n  2x + 2y·(dy/dx) = 0\n  dy/dx = −x/y\n\nExample: x³ + y³ = 6xy\n  3x² + 3y²·y' = 6y + 6x·y'\n  3y²·y' − 6x·y' = 6y − 3x²\n  y'(3y² − 6x) = 6y − 3x²\n  y' = (6y − 3x²)/(3y² − 6x)\n\nLogarithmic differentiation: take ln of both sides first.\n  y = xˣ\n  ln y = x ln x\n  y'/y = ln x + 1\n  y' = xˣ(ln x + 1)" },
+      ], problems:[
+        {q:"d/dx [3x⁴ − 2x² + 7]",a:"12x³ - 4x",sol:"Power rule on each term.",h:"Apply power rule term by term."},
+        {q:"d/dx [x²·eˣ]",a:"eˣ(x² + 2x)",sol:"Product: 2x·eˣ + x²·eˣ = eˣ(x²+2x).",h:"Product rule."},
+        {q:"d/dx [sin(x³)]",a:"3x²cos(x³)",sol:"Chain: cos(x³)·3x².",h:"Chain rule."},
+        {q:"d/dx [ln(x²+1)]",a:"2x/(x²+1)",sol:"Chain: (1/(x²+1))·2x.",h:"Chain rule with ln."},
+        {q:"Find dy/dx if x² + y² = 25, at point (3,4).",a:"-3/4",sol:"2x+2y·y'=0 → y'=−x/y = −3/4.",h:"Implicit differentiation."},
+      ]},
+      { title:"Applications of Derivatives", sections:[
+        { h:"Tangent Lines & Linear Approximation", body:"Tangent line at x = a:\n  y − f(a) = f'(a)(x − a)\n\nExample: f(x) = x³ at x = 2.\n  f(2) = 8, f'(x) = 3x², f'(2) = 12.\n  Tangent: y − 8 = 12(x − 2) → y = 12x − 16\n\nLinear approximation:\n  f(a + Δx) ≈ f(a) + f'(a)·Δx\n\n  √(101) = √(100+1) ≈ 10 + (1/20)·1 = 10.05\n  (actual: 10.0499…)\n\nDifferentials: dy = f'(x)·dx\n  If x changes by dx, y changes by approximately dy." },
+        { h:"Optimization (Max/Min)", body:"Process:\n  1. Write the function to optimize.\n  2. Find f'(x) and set f'(x) = 0 → critical points.\n  3. Also check where f'(x) doesn't exist and endpoints.\n  4. Classify using:\n     First derivative test: f' changes sign → extremum.\n     Second derivative test: f''(c) > 0 → min, f''(c) < 0 → max.\n\nExample: Maximize area of rectangle with perimeter 20.\n  P = 2l+2w = 20, so w = 10−l.\n  A = l(10−l) = 10l − l²\n  A' = 10 − 2l = 0 → l = 5, w = 5.\n  A'' = −2 < 0 → maximum. Area = 25.\n\n⚠️ Word problems: DRAW A PICTURE. Label variables. Write constraint and objective function." },
+        { h:"Related Rates", body:"When quantities are related and changing with time:\n  1. Identify what's given (rates) and what's asked.\n  2. Find an equation relating the quantities.\n  3. Differentiate both sides with respect to TIME (t).\n  4. Plug in known values and solve.\n\nExample: Ladder sliding down a wall.\n  x² + y² = 25 (ladder length 5).\n  Given: dx/dt = 2 ft/s, find dy/dt when x = 3.\n  2x(dx/dt) + 2y(dy/dt) = 0\n  2(3)(2) + 2(4)(dy/dt) = 0 (y=4 from Pythagorean)\n  dy/dt = −12/8 = −3/2 ft/s (falling)\n\nCommon setups: expanding circle/sphere, filling cone, shadow problems." },
+        { h:"L'Hôpital's Rule & Curve Sketching", body:"L'Hôpital's Rule: if lim f(x)/g(x) gives 0/0 or ∞/∞:\n  lim f(x)/g(x) = lim f'(x)/g'(x)\n\n  lim[x→0] sin x/x = lim cos x/1 = 1\n  lim[x→∞] ln x/x = lim (1/x)/1 = 0\n\nCurve sketching checklist:\n  1. Domain, intercepts (set x=0 and y=0)\n  2. Symmetry (even: f(−x)=f(x), odd: f(−x)=−f(x))\n  3. Asymptotes (horizontal, vertical, oblique)\n  4. f'(x): increasing/decreasing intervals, critical points\n  5. f''(x): concavity, inflection points\n  6. Put it all together\n\nMean Value Theorem: if f is continuous on [a,b] and differentiable on (a,b),\n  then there exists c in (a,b) with f'(c) = (f(b)−f(a))/(b−a).\n  (Some tangent line is parallel to the secant line.)" },
+      ], problems:[
+        {q:"Tangent line to f(x)=x² at x=3. Find the y-intercept.",a:"-9",sol:"f(3)=9, f'(3)=6. Line: y=6x−9. y-intercept: −9.",h:"y − 9 = 6(x−3)."},
+        {q:"f(x)=x³−3x. Find local max value.",a:"2",sol:"f'=3x²−3=0 → x=±1. f''=6x. f''(−1)=−6<0 → max at x=−1. f(−1)=2.",h:"Set f'=0, use second derivative test."},
+        {q:"lim[x→0] (eˣ−1−x)/x² using L'Hôpital's",a:"1/2",sol:"0/0. L'H: (eˣ−1)/(2x). Still 0/0. L'H: eˣ/2 → 1/2.",h:"Apply L'Hôpital's twice."},
+        {q:"Circle area increasing at 3 cm²/s. How fast is radius growing when r=2?",a:"3/(4π)",sol:"A=πr². dA/dt=2πr·dr/dt. 3=4π·dr/dt. dr/dt=3/(4π).",h:"Differentiate A=πr² with respect to t."},
+      ]},
+    ]
+  },
+  {
+    id:"calc2", title:"Calculus II", sub:"Integration & Series", color:"#5a5aa0",
+    icon:"∫", desc:"Accumulation, area, volume, and infinite sums",
+    lessons:[
+      { title:"Antiderivatives & Definite Integrals", sections:[
+        { h:"Antiderivatives", body:"Integration = reverse of differentiation.\nIf F'(x) = f(x), then ∫f(x)dx = F(x) + C.\n\nBasic rules:\n  ∫xⁿ dx = xⁿ⁺¹/(n+1) + C   (n ≠ −1)\n  ∫1/x dx = ln|x| + C\n  ∫eˣ dx = eˣ + C\n  ∫aˣ dx = aˣ/ln(a) + C\n  ∫sin x dx = −cos x + C\n  ∫cos x dx = sin x + C\n  ∫sec²x dx = tan x + C\n  ∫sec x tan x dx = sec x + C\n  ∫1/(1+x²) dx = arctan x + C\n  ∫1/√(1−x²) dx = arcsin x + C\n\n+C is essential — the antiderivative is a FAMILY of functions." },
+        { h:"Fundamental Theorem of Calculus", body:"THE theorem that links differentiation and integration.\n\nPart 1: If F(x) = ∫ₐˣ f(t) dt, then F'(x) = f(x).\n  The derivative of the integral gives back the function.\n\nPart 2: ∫ₐᵇ f(x) dx = F(b) − F(a)\n  To evaluate a definite integral: find antiderivative, subtract endpoints.\n\nExample:\n  ∫₁³ x² dx = [x³/3]₁³ = 27/3 − 1/3 = 26/3\n\n  ∫₀^π sin x dx = [−cos x]₀^π = (−cos π) − (−cos 0) = 1+1 = 2" },
+        { h:"Area & Net Change", body:"∫ₐᵇ f(x) dx = signed area between f and x-axis.\n  Above x-axis → positive. Below → negative.\n\nTotal area = ∫ₐᵇ |f(x)| dx (split at zeros).\n\nArea between curves:\n  ∫ₐᵇ [top(x) − bottom(x)] dx\n\nExample: Area between y = x² and y = x on [0,1]:\n  ∫₀¹ (x − x²) dx = [x²/2 − x³/3]₀¹ = 1/2 − 1/3 = 1/6\n\nNet change: ∫ₐᵇ f'(x) dx = f(b) − f(a)\n  If v(t) = velocity, then ∫ₐᵇ v(t) dt = displacement." },
+      ], problems:[
+        {q:"∫(3x² + 2x) dx",a:"x³ + x² + C",sol:"3x³/3 + 2x²/2 + C = x³ + x² + C.",h:"Reverse power rule."},
+        {q:"∫₀² 4x dx",a:"8",sol:"[2x²]₀² = 8 − 0 = 8.",h:"Antiderivative of 4x is 2x²."},
+        {q:"∫₀^π cos x dx",a:"0",sol:"[sin x]₀^π = 0 − 0 = 0.",h:"Antiderivative of cos is sin."},
+        {q:"Area between y=x and y=x² on [0,1]?",a:"1/6",sol:"∫₀¹(x−x²)dx = [x²/2−x³/3]₀¹ = 1/6.",h:"Integrate (top − bottom)."},
+      ]},
+      { title:"Integration Techniques", sections:[
+        { h:"u-Substitution", body:"The chain rule in reverse. Look for f(g(x))·g'(x).\n\nRecipe: choose u = inner function. Compute du.\n\n∫2x·cos(x²) dx\n  u = x², du = 2x dx\n  = ∫cos(u) du = sin(u) + C = sin(x²) + C\n\n∫x/(x²+1) dx\n  u = x²+1, du = 2x dx → x dx = du/2\n  = (1/2)∫du/u = (1/2)ln|u| + C = (1/2)ln(x²+1) + C\n\nFor definite integrals, CHANGE THE BOUNDS when you substitute:\n  ∫₀¹ 2x·eˣ² dx, u=x²: when x=0→u=0, x=1→u=1\n  = ∫₀¹ eᵘ du = e−1" },
+        { h:"Integration by Parts", body:"∫u dv = uv − ∫v du\n\nChoose u via LIATE priority:\n  L — Log (ln x)\n  I — Inverse trig (arctan x)\n  A — Algebraic (x², x)\n  T — Trig (sin, cos)\n  E — Exponential (eˣ)\n\nFirst match = u, rest = dv.\n\n∫x·eˣ dx\n  u=x, dv=eˣdx, du=dx, v=eˣ\n  = xeˣ − ∫eˣ dx = eˣ(x−1) + C\n\n∫ln x dx\n  u=ln x, dv=dx, du=1/x dx, v=x\n  = x ln x − ∫1 dx = x ln x − x + C\n\n∫x² sin x dx → parts TWICE (or tabular method)." },
+        { h:"Trig Sub & Partial Fractions", body:"Trig substitution for radicals:\n  √(a²−x²): let x = a sin θ  →  √ becomes a cos θ\n  √(a²+x²): let x = a tan θ  →  √ becomes a sec θ\n  √(x²−a²): let x = a sec θ  →  √ becomes a tan θ\n\nPartial fractions for rational integrals:\n  Decompose P(x)/Q(x) into simpler fractions.\n\n  1/(x²−1) = A/(x−1) + B/(x+1)\n  1 = A(x+1) + B(x−1)\n  x=1: A=1/2. x=−1: B=−1/2.\n  ∫dx/(x²−1) = (1/2)ln|x−1| − (1/2)ln|x+1| + C\n\nRepeated factors: 1/(x²(x+1)) = A/x + B/x² + C/(x+1)\n\nIrreducible quadratic: (Ax+B)/(x²+1) form." },
+      ], problems:[
+        {q:"∫2x·sin(x²) dx",a:"-cos(x²) + C",sol:"u=x², du=2xdx. ∫sin u du = −cos u + C.",h:"Let u = x²."},
+        {q:"∫x·cos x dx (by parts)",a:"x·sin x + cos x + C",sol:"u=x, dv=cos x dx. x sin x − ∫sin x dx = x sin x + cos x + C.",h:"u=x, dv=cos x dx."},
+        {q:"∫₀¹ xe^x dx",a:"1",sol:"Parts: u=x, dv=eˣdx. [xeˣ−eˣ]₀¹ = (e−e)−(0−1) = 1.",h:"By parts, then evaluate."},
+      ]},
+      { title:"Applications of Integration", sections:[
+        { h:"Volumes of Revolution", body:"Disk method (revolve around x-axis):\n  V = π∫ₐᵇ [f(x)]² dx\n\nWasher method (hollow solid):\n  V = π∫ₐᵇ [R(x)² − r(x)²] dx\n\nShell method (revolve around y-axis):\n  V = 2π∫ₐᵇ x·f(x) dx\n\nExample: Revolve y = √x from 0 to 4 around x-axis.\n  V = π∫₀⁴ (√x)² dx = π∫₀⁴ x dx = π[x²/2]₀⁴ = 8π\n\nChoosing method: if slicing perpendicular to axis of revolution → disk/washer.\nIf slicing parallel to axis of revolution → shell." },
+        { h:"Arc Length & Surface Area", body:"Arc length of y = f(x) from a to b:\n  L = ∫ₐᵇ √(1 + [f'(x)]²) dx\n\nExample: y = x^(3/2) from 0 to 4.\n  f'(x) = (3/2)x^(1/2)\n  L = ∫₀⁴ √(1 + 9x/4) dx\n\nSurface area of revolution (around x-axis):\n  S = 2π∫ₐᵇ f(x)·√(1 + [f'(x)]²) dx\n\nParametric arc length: L = ∫ₐᵇ √((dx/dt)² + (dy/dt)²) dt" },
+        { h:"Work, Probability & Improper Integrals", body:"Work: W = ∫ₐᵇ F(x) dx (force × distance)\n  Spring: F = kx, so W = ∫₀ᵈ kx dx = kd²/2\n  Pumping water: set up integral for weight × lift distance.\n\nImproper integrals: infinite bounds or discontinuities.\n  ∫₁^∞ 1/x² dx = lim[b→∞] [−1/x]₁ᵇ = 0−(−1) = 1 (converges)\n  ∫₁^∞ 1/x dx = lim[b→∞] ln b = ∞ (diverges)\n\nComparison: if 0 ≤ f ≤ g and ∫g converges, then ∫f converges.\n  1/x² ≤ 1/x for x ≥ 1? No — it's the other way: 1/x² ≤ 1/x is wrong for x≥1.\n  Actually 1/x² ≤ 1/x for x ≥ 1. And ∫1/x diverges, so this doesn't help.\n  But: 1/x² converges by p-test (p=2>1)." },
+      ], problems:[
+        {q:"Volume: revolve y=x² from 0 to 2 around x-axis.",a:"32π/5",sol:"π∫₀²x⁴dx = π[x⁵/5]₀² = 32π/5.",h:"Disk method: π∫[f(x)]²dx."},
+        {q:"Does ∫₁^∞ 1/x³ dx converge? If so, find its value.",a:"1/2",sol:"[−1/(2x²)]₁^∞ = 0−(−1/2) = 1/2.",h:"p-series integral with p=3>1."},
+      ]},
+      { title:"Infinite Series", sections:[
+        { h:"Sequences & Convergence Tests", body:"A series Σaₙ converges if partial sums approach a finite limit.\n\nDivergence test: if lim aₙ ≠ 0 → DIVERGES.\n  (lim aₙ = 0 doesn't guarantee convergence!)\n\np-series: Σ 1/nᵖ\n  p > 1 → converges. p ≤ 1 → diverges.\n  Σ1/n diverges! (harmonic series)\n  Σ1/n² = π²/6 (converges)\n\nGeometric: Σarⁿ\n  |r| < 1 → converges to a/(1−r).\n  |r| ≥ 1 → diverges.\n\nComparison test: compare to a known series.\nLimit comparison: lim aₙ/bₙ = L (finite, positive) → same behavior.\nRatio test: lim |aₙ₊₁/aₙ| = L < 1 → converges, > 1 → diverges.\nRoot test: lim |aₙ|^(1/n) = L, same criteria.\nIntegral test: Σf(n) and ∫f(x)dx behave the same." },
+        { h:"Taylor & Maclaurin Series", body:"Taylor series of f at x = a:\n  f(x) = Σ f⁽ⁿ⁾(a)/n! · (x−a)ⁿ\n\nMaclaurin = Taylor at a = 0. KEY SERIES:\n\n  eˣ = 1 + x + x²/2! + x³/3! + …  (all x)\n  sin x = x − x³/3! + x⁵/5! − …    (all x)\n  cos x = 1 − x²/2! + x⁴/4! − …    (all x)\n  1/(1−x) = 1 + x + x² + x³ + …    (|x| < 1)\n  ln(1+x) = x − x²/2 + x³/3 − …   (−1 < x ≤ 1)\n  (1+x)ᵏ = 1 + kx + k(k−1)x²/2! + … (binomial series)\n\nRadius of convergence R: the series converges for |x−a| < R.\nUse ratio test to find R.\n\nApplications: approximation, evaluating limits, computing impossible integrals." },
+        { h:"Alternating Series & Error Bounds", body:"Alternating series: Σ(−1)ⁿ bₙ where bₙ > 0.\n\nAlternating Series Test: converges if bₙ decreases to 0.\n  Example: Σ(−1)ⁿ/n = 1−1/2+1/3−1/4+… = ln 2 (converges)\n\nError bound: |Rₙ| ≤ bₙ₊₁ (the first omitted term).\n  If you use 10 terms, your error ≤ the 11th term. Simple!\n\nAbsolute convergence: if Σ|aₙ| converges, then Σaₙ converges.\n  Absolutely convergent → convergent.\n  Conditionally convergent: Σaₙ converges but Σ|aₙ| diverges.\n\nPower series: Σcₙ(x−a)ⁿ. Three possibilities:\n  Converges only at x = a (R = 0).\n  Converges for all x (R = ∞).\n  Converges for |x−a| < R (check endpoints separately)." },
+      ], problems:[
+        {q:"Does Σ(n=1→∞) 1/n³ converge or diverge?",a:"converge",sol:"p-series, p=3>1 → converges.",h:"p-test."},
+        {q:"Σ(n=0→∞) (1/3)ⁿ = ?",a:"3/2",sol:"Geometric: a=1, r=1/3. S = 1/(1−1/3) = 3/2.",h:"Geometric series formula."},
+        {q:"First 3 nonzero terms of Maclaurin series for eˣ·sin x?",a:"x + x² + x³/3",sol:"eˣ = 1+x+x²/2+… sinx = x−x³/6+… Multiply: x + x² + (1/2−1/6)x³ +… = x+x²+x³/3.",h:"Multiply the two known series."},
+        {q:"Radius of convergence of Σ xⁿ/n! ?",a:"∞",sol:"Ratio: |x|/(n+1) → 0 for all x. R = ∞.",h:"Use ratio test."},
+      ]},
+    ]
+  },
+  {
+    id:"calc3", title:"Calculus III", sub:"Multivariable Calculus", color:"#2e6e8e",
+    icon:"∇", desc:"Calculus in 3D — surfaces, vector fields, and fundamental theorems",
+    lessons:[
+      { title:"Vectors & 3D Geometry", sections:[
+        { h:"Vectors in 2D and 3D", body:"A vector v = ⟨a, b, c⟩ has magnitude and direction.\n\n|v| = √(a²+b²+c²)\nUnit vector: v̂ = v/|v|\n\nOperations:\n  v + w = ⟨a₁+a₂, b₁+b₂, c₁+c₂⟩\n  cv = ⟨ca, cb, cc⟩\n\nDot product: v·w = a₁a₂ + b₁b₂ + c₁c₂ = |v||w|cos θ\n  Result: a SCALAR.\n  v·w = 0 iff v ⊥ w.\n  Projection of v onto w: proj_w(v) = (v·w/|w|²)w.\n\nCross product (3D only): v×w = ⟨b₁c₂−b₂c₁, c₁a₂−c₂a₁, a₁b₂−a₂b₁⟩\n  Result: a VECTOR perpendicular to both v and w.\n  |v×w| = |v||w|sin θ = area of parallelogram.\n  v×w = 0 iff v ∥ w." },
+        { h:"Lines, Planes & Surfaces", body:"Line through point P₀ in direction v:\n  r(t) = P₀ + tv = ⟨x₀+at, y₀+bt, z₀+ct⟩\n  Parametric: x=x₀+at, y=y₀+bt, z=z₀+ct.\n\nPlane through P₀ with normal n = ⟨a,b,c⟩:\n  a(x−x₀) + b(y−y₀) + c(z−z₀) = 0\n  Or: ax + by + cz = d.\n\nDistance from point to plane: |ax₀+by₀+cz₀−d|/√(a²+b²+c²)\n\nQuadric surfaces (3D analogs of conics):\n  Sphere: x²+y²+z² = r²\n  Ellipsoid: x²/a²+y²/b²+z²/c² = 1\n  Paraboloid: z = x²+y²\n  Hyperboloid: x²+y²−z² = 1\n  Cone: z² = x²+y²" },
+      ], problems:[
+        {q:"v = ⟨1,2,3⟩, w = ⟨4,−1,2⟩. Find v·w.",a:"8",sol:"4−2+6 = 8.",h:"Multiply corresponding components and add."},
+        {q:"Find |⟨3, 4⟩|.",a:"5",sol:"√(9+16) = 5.",h:"|v| = √(a²+b²)."},
+        {q:"Equation of plane through (1,2,3) with normal ⟨1,1,1⟩?",a:"x+y+z=6",sol:"1(x−1)+1(y−2)+1(z−3)=0 → x+y+z=6.",h:"a(x−x₀)+b(y−y₀)+c(z−z₀)=0."},
+        {q:"v = ⟨1,0,0⟩, w = ⟨0,1,0⟩. Find v×w.",a:"⟨0,0,1⟩",sol:"i×j = k = ⟨0,0,1⟩.",h:"Use cross product formula or i×j=k."},
+      ]},
+      { title:"Partial Derivatives & Gradients", sections:[
+        { h:"Partial Derivatives", body:"For f(x,y), ∂f/∂x treats y as CONSTANT, differentiates w.r.t. x.\n\nf(x,y) = x²y + 3xy² − y\n  fₓ = 2xy + 3y²\n  fᵧ = x² + 6xy − 1\n\nSecond partials:\n  fₓₓ = 2y\n  fᵧᵧ = 6x\n  fₓᵧ = 2x + 6y = fᵧₓ  (Clairaut's: mixed partials are equal if continuous)\n\nInterpretation: fₓ = rate of change of f in x-direction.\n\nTangent plane to z = f(x,y) at (a,b):\n  z − f(a,b) = fₓ(a,b)(x−a) + fᵧ(a,b)(y−b)" },
+        { h:"Gradient & Directional Derivatives", body:"Gradient: ∇f = ⟨∂f/∂x, ∂f/∂y⟩  (or with ∂f/∂z in 3D)\n\nKey properties:\n  • ∇f points toward STEEPEST INCREASE.\n  • |∇f| = rate of steepest increase.\n  • ∇f is PERPENDICULAR to level curves.\n\nDirectional derivative in direction of unit vector u:\n  D_u f = ∇f · u\n\nExample: f = x²+y², ∇f = ⟨2x,2y⟩.\n  At (1,1): ∇f = ⟨2,2⟩.\n  Direction u = ⟨1/√2, 1/√2⟩ (toward (1,1)):\n  D_u f = 2/√2 + 2/√2 = 2√2.\n\nMaximum D_u f = |∇f|, achieved when u is in direction of ∇f.\nMinimum D_u f = −|∇f|, in opposite direction." },
+        { h:"Optimization & Lagrange Multipliers", body:"Unconstrained optimization:\n  1. Find critical points: ∇f = 0.\n  2. Second derivative test:\n     D = fₓₓfᵧᵧ − (fₓᵧ)²\n     D > 0, fₓₓ > 0 → local min\n     D > 0, fₓₓ < 0 → local max\n     D < 0 → saddle point\n     D = 0 → inconclusive\n\nConstrained optimization (Lagrange multipliers):\n  Optimize f subject to g(x,y) = c.\n  Solve: ∇f = λ∇g  AND  g = c.\n\n  Example: Maximize xy subject to x+y = 10.\n  ∇(xy) = ⟨y,x⟩, ∇(x+y) = ⟨1,1⟩.\n  y = λ, x = λ → x = y. With x+y=10: x=y=5. Max = 25.\n\n  Geometric meaning: at the optimum, the level curve of f is TANGENT to the constraint curve." },
+      ], problems:[
+        {q:"f(x,y)=x³+2xy−y². Find fₓ.",a:"3x²+2y",sol:"Treat y as constant: 3x²+2y.",h:"Differentiate w.r.t. x."},
+        {q:"f(x,y)=x²y³. Find ∇f at (1,2).",a:"⟨16, 12⟩",sol:"fₓ=2xy³=16. fᵧ=3x²y²=12.",h:"Compute both partials at the point."},
+        {q:"Critical points of f=x²+y²−4x−6y?",a:"(2, 3)",sol:"fₓ=2x−4=0→x=2. fᵧ=2y−6=0→y=3.",h:"Set both partials to zero."},
+        {q:"Classify critical point of f=x²−y² at (0,0).",a:"saddle point",sol:"fₓₓ=2, fᵧᵧ=−2, fₓᵧ=0. D=−4<0 → saddle.",h:"Compute D = fₓₓfᵧᵧ − fₓᵧ²."},
+      ]},
+      { title:"Multiple Integrals", sections:[
+        { h:"Double Integrals", body:"∬_R f(x,y) dA = iterated integral.\n\nRectangle R = [a,b]×[c,d]:\n  ∬f dA = ∫ₐᵇ ∫_c^d f(x,y) dy dx\n\nCompute INSIDE integral first (treating outer variable as constant).\n\n∫₀¹ ∫₀² (x+y) dy dx\n  Inner: ∫₀²(x+y)dy = [xy+y²/2]₀² = 2x+2\n  Outer: ∫₀¹(2x+2)dx = [x²+2x]₀¹ = 3\n\nNon-rectangular: limits of inner integral depend on outer variable.\n  Type I: ∫ₐᵇ ∫_{g₁(x)}^{g₂(x)} f dy dx\n  Type II: ∫_c^d ∫_{h₁(y)}^{h₂(y)} f dx dy\n\nFubini's Theorem: if f is continuous, order of integration doesn't matter.\nSometimes switching order makes the integral MUCH easier!" },
+        { h:"Polar, Cylindrical & Spherical", body:"Polar (2D): x=r cos θ, y=r sin θ.\n  dA = r dr dθ  (don't forget the r!)\n  ∬f dA = ∫∫ f(r cos θ, r sin θ) · r dr dθ\n\nCylindrical (3D): x=r cos θ, y=r sin θ, z=z.\n  dV = r dz dr dθ\n  Use for cylindrical symmetry.\n\nSpherical (3D): x=ρ sinφ cosθ, y=ρ sinφ sinθ, z=ρ cosφ.\n  ρ = distance from origin\n  φ = angle from positive z-axis (0 to π)\n  θ = angle in xy-plane (0 to 2π)\n  dV = ρ² sinφ dρ dφ dθ\n\nChoice guide:\n  Rectangle → Cartesian\n  Circle/disk → polar\n  Cylinder/tube → cylindrical\n  Sphere/cone → spherical" },
+        { h:"Triple Integrals & Applications", body:"∭_E f dV for a 3D region E.\n\nSet up by choosing bounds carefully:\n  ∫∫∫ f(x,y,z) dz dy dx  (or any order)\n\nApplications:\n  Volume: ∭ 1 dV\n  Mass: ∭ ρ dV (ρ = density)\n  Center of mass: x̄ = (1/M)∭ xρ dV\n  Moment of inertia: I = ∭ r²ρ dV\n\nExample: Volume of sphere radius R:\n  Spherical: ∫₀²π ∫₀π ∫₀ᴿ ρ² sinφ dρ dφ dθ\n  = ∫₀²π dθ · ∫₀π sinφ dφ · ∫₀ᴿ ρ² dρ\n  = 2π · 2 · R³/3 = 4πR³/3 ✓\n\nChange of variables: ∬f(x,y)dA = ∬f(g(u,v),h(u,v))|J|du dv\n  where J = ∂(x,y)/∂(u,v) is the Jacobian determinant." },
+      ], problems:[
+        {q:"∫₀¹ ∫₀¹ (x+y) dy dx",a:"1",sol:"Inner: x+1/2. Outer: 1/2+1/2=1.",h:"Integrate y first."},
+        {q:"Convert (x,y)=(1,1) to polar.",a:"(√2, π/4)",sol:"r=√2, θ=arctan(1)=π/4.",h:"r=√(x²+y²)."},
+        {q:"∬_D 1 dA where D is the disk x²+y²≤4.",a:"4π",sol:"Polar: ∫₀²π∫₀² r dr dθ = 2π·2 = 4π.",h:"Use polar coordinates for circles."},
+        {q:"Set up (don't solve): volume above z=0, below z=4−x²−y², in first octant.",a:"∫₀^(π/2) ∫₀² ∫₀^(4-r²) r dz dr dθ",sol:"Cylindrical. z from 0 to 4−r². r from 0 to 2 (where 4−r²=0). θ from 0 to π/2.",h:"Use cylindrical coordinates."},
+      ]},
+      { title:"Vector Calculus", sections:[
+        { h:"Line Integrals", body:"Line integral of scalar function f along curve C:\n  ∫_C f ds = ∫ₐᵇ f(r(t)) |r'(t)| dt\n\nLine integral of vector field F along C:\n  ∫_C F·dr = ∫ₐᵇ F(r(t))·r'(t) dt\n  Physical meaning: WORK done by force F.\n\nParametrize C as r(t) = ⟨x(t),y(t)⟩, a ≤ t ≤ b.\n  Then F·dr = F(r(t))·r'(t) dt = P(dx/dt) + Q(dy/dt) dt.\n\nConservative fields: F = ∇f for potential function f.\n  Then ∫_C F·dr = f(end) − f(start). Path independent!\n  Test: ∂P/∂y = ∂Q/∂x." },
+        { h:"Green's Theorem", body:"Relates a line integral around a closed curve to a double integral over the enclosed region.\n\n∮_C (P dx + Q dy) = ∬_R (∂Q/∂x − ∂P/∂y) dA\n\nC must be simple, closed, positively oriented (counterclockwise).\n\nApplications:\n  Area: A = ∮ x dy = −∮ y dx = (1/2)∮(x dy − y dx)\n\nExample: ∮_C (x²dy − y²dx) where C is unit circle.\n  = ∬(2x+2y)dA (over unit disk)\n  By symmetry, ∬2x dA = 0, ∬2y dA = 0.\n  Answer: 0.\n\nGreen's theorem is the 2D version of Stokes' theorem." },
+        { h:"Divergence, Curl & Big Theorems", body:"Divergence: div F = ∇·F = ∂P/∂x + ∂Q/∂y + ∂R/∂z\n  Measures \"outward flow\" at a point.\n\nCurl: curl F = ∇×F = ⟨Rᵧ−Qᵤ, Pᵤ−Rₓ, Qₓ−Pᵧ⟩\n  Measures \"rotation\" at a point.\n  curl F = 0 ↔ F is conservative (in simply connected region).\n\nStokes' Theorem (3D generalization of Green's):\n  ∮_C F·dr = ∬_S (curl F)·dS\n\nDivergence Theorem (3D generalization of Green's flux form):\n  ∯_S F·dS = ∭_V (div F) dV\n\nAll three big theorems (FTC, Stokes, Divergence) say the same thing:\n  \"Integral over boundary = integral of derivative over interior.\"" },
+        { h:"Surface Integrals", body:"Surface integral of scalar f over surface S:\n  ∬_S f dS = ∬_D f(r(u,v)) |rᵤ × rᵥ| du dv\n\nwhere r(u,v) parametrizes S.\n\nFlux integral (vector field through a surface):\n  ∬_S F·dS = ∬_D F·(rᵤ × rᵥ) du dv\n\nFor z = g(x,y):\n  dS = √(1 + gₓ² + gᵧ²) dA\n  Normal: n = ⟨−gₓ, −gᵧ, 1⟩\n\nOrientation: choose consistent normal direction (outward for closed surfaces).\n\nApplications:\n  Surface area: ∬_S 1 dS\n  Mass: ∬_S ρ dS\n  Flux: ∬_S F·n dS" },
+      ], problems:[
+        {q:"F = ⟨2xy, x²⟩. Is F conservative?",a:"yes",sol:"∂P/∂y = 2x = ∂Q/∂x. Yes.",h:"Check ∂P/∂y = ∂Q/∂x."},
+        {q:"div F for F = ⟨x², xy, z³⟩?",a:"2x + x + 3z²",sol:"∂(x²)/∂x + ∂(xy)/∂y + ∂(z³)/∂z = 2x+x+3z².",h:"Sum of partial derivatives."},
+        {q:"Find potential f where ∇f = ⟨2x, 2y⟩.",a:"x² + y² + C",sol:"∫2x dx = x²+g(y). g'(y)=2y → g=y². f=x²+y²+C.",h:"Integrate P w.r.t. x, match with Q."},
+        {q:"Use Green's theorem: ∮_C (y dx − x dy) where C is circle x²+y²=4 (CCW).",a:"-8π",sol:"∬(∂(−x)/∂x − ∂y/∂y) dA = ∬(−1−1) dA = −2·(area) = −2·4π = −8π.",h:"Apply Green's: ∬(Qₓ−Pᵧ)dA."},
+      ]},
+    ]
+  },
+];
+
+// ═══════════════════════════════════════════════════════════════════
+// APP
+// ═══════════════════════════════════════════════════════════════════
+
+function App() {
+  const [view, setView] = useState("home");
+  const [courseId, setCourseId] = useState(null);
+  const [lessonIdx, setLessonIdx] = useState(0);
+  const [secIdx, setSecIdx] = useState(0);
+  const [probIdx, setProbIdx] = useState(0);
+  const [ans, setAns] = useState("");
+  const [fb, setFb] = useState(null);
+  const [showH, setShowH] = useState(false);
+  const [showS, setShowS] = useState(false);
+  const [score, setScore] = useState({c:0,t:0});
+  const [hov, setHov] = useState(null);
+  const [progress, setProgress] = useState({});
+  const inputRef = useRef(null);
+
+  useEffect(() => { if (inputRef.current) inputRef.current.focus(); }, [probIdx, view]);
+
+  const course = COURSES.find(c => c.id === courseId);
+  const lesson = course ? course.lessons[lessonIdx] : null;
+
+  const reset = () => { setView("home"); setCourseId(null); setFb(null); setShowH(false); setShowS(false); setAns(""); };
+  const goHub = id => { setCourseId(id); setView("hub"); };
+  const goLesson = i => { setLessonIdx(i); setSecIdx(0); setView("lesson"); };
+  const goPractice = () => { setProbIdx(0); setAns(""); setFb(null); setShowH(false); setShowS(false); setScore({c:0,t:0}); setView("practice"); };
+
+  const check = () => {
+    if (!ans.trim() || !lesson) return;
+    var p = lesson.problems[probIdx];
+    var clean = function(s) { return s.replace(/[\s*]/g,"").toLowerCase(); };
+    var ok = clean(ans) === clean(p.a);
+    setFb(ok ? "y" : "n");
+    setScore(function(prev) { return {c: prev.c + (ok?1:0), t: prev.t+1}; });
+    if (ok) {
+      var key = courseId + "-" + lessonIdx;
+      setProgress(function(prev) {
+        var obj = Object.assign({}, prev);
+        obj[key] = Math.max(obj[key] || 0, (probIdx+1)/lesson.problems.length);
+        return obj;
+      });
+    }
+  };
+  var next = function() {
+    if (probIdx < lesson.problems.length - 1) setProbIdx(probIdx+1);
+    else { setProbIdx(0); setView("lesson"); setSecIdx(lesson.sections.length-1); }
+    setAns(""); setFb(null); setShowH(false); setShowS(false);
+  };
+
+  var ff = "'JetBrains Mono',monospace";
+  var fs = "'Literata',Georgia,serif";
+  var bg = "#f6f2ec";
+  var fg = "#2c2416";
+  var muted = "#8b7355";
+  var border = "#ddd4c4";
+
+  var S = {
+    page: {fontFamily:fs,background:bg,color:fg,minHeight:"100vh",padding:"24px",boxSizing:"border-box",maxWidth:720,margin:"0 auto"},
+    tag: function(c){return {display:"inline-block",fontSize:10,fontFamily:ff,fontWeight:600,letterSpacing:1.5,textTransform:"uppercase",padding:"3px 10px",borderRadius:3,background:c+"15",color:c,border:"1px solid "+c+"30"}},
+    h1: {fontFamily:fs,fontSize:28,fontWeight:700,color:fg,margin:"0 0 4px",lineHeight:1.2},
+    h2: {fontFamily:fs,fontSize:20,fontWeight:600,color:fg,margin:"0 0 6px"},
+    h3: {fontFamily:ff,fontSize:11,fontWeight:600,color:muted,margin:"0 0 12px",letterSpacing:2,textTransform:"uppercase"},
+    sub: {fontSize:14,color:muted},
+    card: function(c,h){return {background:h?"#fff":"#faf8f4",border:"1px solid "+(h?c:border),borderRadius:8,padding:"18px 20px",cursor:"pointer",transition:"all .2s",boxShadow:h?"0 2px 12px "+c+"18":"none"}},
+    btn: function(c){c=c||"#5a7a6a";return {background:c,color:"#fff",border:"none",borderRadius:6,padding:"9px 18px",fontFamily:ff,fontSize:12,fontWeight:500,cursor:"pointer"}},
+    btnG: {background:"transparent",border:"1px solid "+border,color:muted,borderRadius:6,padding:"8px 15px",fontFamily:ff,fontSize:12,cursor:"pointer"},
+    input: {flex:1,background:"#fff",border:"1px solid "+border,borderRadius:6,padding:"10px 14px",color:fg,fontSize:15,fontFamily:ff,outline:"none"},
+    box: {background:"#faf8f4",border:"1px solid "+border,borderRadius:8,padding:"22px",marginBottom:14,fontSize:15,lineHeight:1.85,whiteSpace:"pre-wrap"},
+    solBox: {background:"#f0f7f2",border:"1px solid #c0d8c4",borderRadius:6,padding:"16px 20px",marginTop:10,whiteSpace:"pre-wrap",lineHeight:1.65,fontSize:13,fontFamily:ff,color:"#2a5a30"},
+    hintBox: {background:"#f5f0fa",border:"1px solid #d4c4e8",borderRadius:6,padding:"14px 18px",marginTop:10,fontSize:13,color:"#6a4a8a",fontStyle:"italic"},
+    fbk: function(ok){return {padding:"9px 16px",borderRadius:6,fontFamily:ff,fontSize:13,fontWeight:600,background:ok?"#f0f7f2":"#faf0f0",border:"1px solid "+(ok?"#c0d8c4":"#e0c0c0"),color:ok?"#2a7a3a":"#c04040",marginBottom:10}},
+    secBtn: function(active,c){return {background:active?c+"12":"transparent",border:"1px solid "+(active?c:border),color:active?c:muted,borderRadius:5,padding:"5px 12px",fontFamily:ff,fontSize:11,cursor:"pointer",fontWeight:active?600:400}},
+    courseNum: function(c){return {fontFamily:ff,fontSize:48,fontWeight:700,color:c,opacity:0.2,position:"absolute",right:16,top:10}},
+  };
+
+  function Home() {
+    return React.createElement("div", null,
+      React.createElement("div", {style:{textAlign:"center",marginBottom:36,paddingTop:16},className:"fade-up"},
+        React.createElement("div", {style:{fontSize:10,fontFamily:ff,letterSpacing:3,textTransform:"uppercase",color:muted,marginBottom:8}}, "COMPLETE COURSE"),
+        React.createElement("h1", {style:Object.assign({},S.h1,{fontSize:30})}, "Algebra → Calculus III"),
+        React.createElement("p", {style:Object.assign({},S.sub,{marginTop:8})}, "6 courses · 30+ units · 100+ practice problems")
+      ),
+      React.createElement("div", {style:{display:"flex",flexDirection:"column",gap:10}},
+        COURSES.map(function(c,i){
+          var totalL = c.lessons.length;
+          var doneL = c.lessons.filter(function(_,li){ return (progress[c.id+"-"+li]||0) >= 1; }).length;
+          return React.createElement("div", {key:c.id, className:"fade-up", style:Object.assign({},S.card(c.color,hov===c.id),{position:"relative",overflow:"hidden",animationDelay:i*60+"ms"}), onMouseEnter:function(){setHov(c.id)}, onMouseLeave:function(){setHov(null)}, onClick:function(){goHub(c.id)}},
+            React.createElement("div", {style:S.courseNum(c.color)}, i+1),
+            React.createElement("div", {style:{display:"flex",gap:8,alignItems:"center",marginBottom:6}},
+              React.createElement("span", {style:S.tag(c.color)}, c.sub)
+            ),
+            React.createElement("div", {style:{fontSize:18,fontWeight:600,marginBottom:2}}, c.title),
+            React.createElement("div", {style:{fontSize:13,color:muted,marginBottom:6}}, c.desc),
+            React.createElement("div", {style:{fontSize:11,fontFamily:ff,color:muted}}, totalL+" lessons"+(doneL>0?" · "+doneL+"/"+totalL+" complete":""))
+          );
+        })
+      ),
+      React.createElement("div", {style:{textAlign:"center",marginTop:28,padding:"16px",background:"#faf8f4",border:"1px solid "+border,borderRadius:8}},
+        React.createElement("div", {style:{fontSize:13,fontWeight:600,marginBottom:4}}, "Recommended Path"),
+        React.createElement("div", {style:{fontSize:12,color:muted,lineHeight:1.7}}, "Algebra I → Algebra II → Trig → Calc I → Calc II → Calc III")
+      )
+    );
+  }
+
+  function Hub() {
+    if (!course) return null;
+    return React.createElement("div", null,
+      React.createElement("div", {style:{display:"flex",gap:8,alignItems:"center",marginBottom:20}},
+        React.createElement("button", {style:S.btnG, onClick:reset}, "← Courses"),
+        React.createElement("span", {style:S.tag(course.color)}, course.title)
+      ),
+      React.createElement("h2", {style:S.h2}, course.title+": "+course.sub),
+      React.createElement("p", {style:Object.assign({},S.sub,{marginBottom:20})}, course.desc),
+      React.createElement("h3", {style:S.h3}, "Lessons"),
+      course.lessons.map(function(l,i){
+        var key = course.id+"-"+i;
+        var pct = progress[key] || 0;
+        return React.createElement("div", {key:i, className:"fade-up", style:Object.assign({},S.card(course.color,hov==="l"+i),{marginBottom:8,display:"flex",justifyContent:"space-between",alignItems:"center",animationDelay:i*60+"ms"}), onMouseEnter:function(){setHov("l"+i)}, onMouseLeave:function(){setHov(null)}, onClick:function(){goLesson(i)}},
+          React.createElement("div", {style:{flex:1}},
+            React.createElement("div", {style:{display:"flex",alignItems:"center",gap:8}},
+              React.createElement("span", {style:{fontFamily:ff,fontSize:12,color:course.color,fontWeight:600}}, (i+1)+"."),
+              React.createElement("span", {style:{fontSize:15,fontWeight:600}}, l.title)
+            ),
+            React.createElement("div", {style:{fontSize:11,color:muted,marginTop:2}}, l.sections.length+" sections · "+l.problems.length+" practice Qs"),
+            pct > 0 ? React.createElement("div", {style:{height:3,background:"#e8e0d4",borderRadius:2,marginTop:4,position:"relative",overflow:"hidden"}},
+              React.createElement("div", {style:{position:"absolute",left:0,top:0,height:"100%",width:pct*100+"%",background:course.color,borderRadius:2}})
+            ) : null
+          ),
+          React.createElement("span", {style:{color:course.color,fontFamily:ff,fontSize:16,marginLeft:12}}, "→")
+        );
+      })
+    );
+  }
+
+  function Lesson() {
+    if (!course || !lesson) return null;
+    var sec = lesson.sections[secIdx];
+    var last = secIdx === lesson.sections.length-1;
+    return React.createElement("div", null,
+      React.createElement("div", {style:{display:"flex",gap:8,alignItems:"center",marginBottom:14}},
+        React.createElement("button", {style:S.btnG, onClick:function(){setView("hub")}}, "← "+course.title),
+        React.createElement("span", {style:S.tag(course.color)}, "Lesson "+(lessonIdx+1))
+      ),
+      React.createElement("h2", {style:S.h2}, lesson.title),
+      React.createElement("div", {style:Object.assign({},S.sub,{marginBottom:14})}, "Section "+(secIdx+1)+" of "+lesson.sections.length),
+      React.createElement("div", {style:{display:"flex",gap:6,flexWrap:"wrap",marginBottom:16}},
+        lesson.sections.map(function(s,i){
+          return React.createElement("button", {key:i, onClick:function(){setSecIdx(i)}, style:S.secBtn(i===secIdx,course.color)}, s.h);
+        })
+      ),
+      React.createElement("div", {style:Object.assign({},S.box,{borderLeft:"3px solid "+course.color}), className:"fade-up"},
+        React.createElement("div", {style:{fontFamily:ff,fontSize:14,fontWeight:600,color:course.color,marginBottom:10}}, sec.h),
+        React.createElement("div", {style:{fontSize:14.5,lineHeight:1.85,whiteSpace:"pre-wrap",color:"#3a3020"}}, sec.body)
+      ),
+      React.createElement("div", {style:{display:"flex",gap:8,marginTop:14,flexWrap:"wrap"}},
+        secIdx > 0 ? React.createElement("button", {style:S.btnG, onClick:function(){setSecIdx(secIdx-1)}}, "← Previous") : null,
+        !last ? React.createElement("button", {style:S.btn(course.color), onClick:function(){setSecIdx(secIdx+1)}}, "Next Section →") : null,
+        last && lesson.problems.length > 0 ? React.createElement("button", {style:S.btn(course.color), onClick:goPractice}, "Practice ("+lesson.problems.length+" Qs) →") : null,
+        last && lessonIdx < course.lessons.length-1 ? React.createElement("button", {style:S.btnG, onClick:function(){setLessonIdx(lessonIdx+1);setSecIdx(0);}}, "Next Lesson →") : null,
+        last && lessonIdx === course.lessons.length-1 ? React.createElement("button", {style:S.btnG, onClick:function(){setView("hub")}}, "Back to Course →") : null
+      )
+    );
+  }
+
+  function Practice() {
+    if (!course || !lesson) return null;
+    var p = lesson.problems[probIdx];
+    if (!p) return null;
+    var pct = ((probIdx+1)/lesson.problems.length)*100;
+    return React.createElement("div", null,
+      React.createElement("div", {style:{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:10}},
+        React.createElement("div", {style:{display:"flex",gap:8,alignItems:"center"}},
+          React.createElement("button", {style:S.btnG, onClick:function(){setView("lesson");setSecIdx(lesson.sections.length-1);}}, "← Lesson"),
+          React.createElement("span", {style:S.tag(course.color)}, lesson.title)
+        ),
+        React.createElement("div", {style:{fontFamily:ff,fontSize:12,color:muted}}, score.c+"/"+score.t)
+      ),
+      React.createElement("div", {style:{height:3,background:"#e8e0d4",borderRadius:2,marginBottom:14,position:"relative",overflow:"hidden"}},
+        React.createElement("div", {style:{position:"absolute",left:0,top:0,height:"100%",width:pct+"%",background:course.color,borderRadius:2,transition:"width .3s"}})
+      ),
+      React.createElement("div", {style:{fontFamily:ff,fontSize:12,color:muted,marginBottom:8}}, "Problem "+(probIdx+1)+" of "+lesson.problems.length),
+      React.createElement("div", {style:S.box, className:"fade-up"}, p.q),
+      React.createElement("div", {style:{display:"flex",gap:8,marginBottom:10}},
+        React.createElement("input", {ref:inputRef, style:S.input, value:ans, onChange:function(e){setAns(e.target.value)}, onKeyDown:function(e){if(e.key==="Enter"&&!fb)check()}, placeholder:"Your answer…", disabled:!!fb}),
+        !fb ? React.createElement("button", {style:S.btn(course.color), onClick:check}, "Check") : React.createElement("button", {style:S.btn("#777"), onClick:next}, probIdx<lesson.problems.length-1?"Next →":"Done")
+      ),
+      fb ? React.createElement("div", {style:S.fbk(fb==="y")}, fb==="y"?"✓ Correct!":"✗ Answer: "+p.a) : null,
+      React.createElement("div", {style:{display:"flex",gap:6}},
+        !showH && !showS ? React.createElement("button", {style:S.btnG, onClick:function(){setShowH(true)}}, "Hint") : null,
+        React.createElement("button", {style:S.btnG, onClick:function(){setShowS(!showS)}}, showS?"Hide Solution":"Solution")
+      ),
+      showH && !showS ? React.createElement("div", {style:S.hintBox}, p.h) : null,
+      showS ? React.createElement("div", {style:S.solBox}, p.sol) : null
+    );
+  }
+
+  return React.createElement("div", {style:S.page},
+    view === "home" ? React.createElement(Home) : null,
+    view === "hub" ? React.createElement(Hub) : null,
+    view === "lesson" ? React.createElement(Lesson) : null,
+    view === "practice" ? React.createElement(Practice) : null
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(React.createElement(App));
+
+</script>
+</body>
+</html>
