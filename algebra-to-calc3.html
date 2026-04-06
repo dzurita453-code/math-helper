@@ -13,8 +13,6 @@
   ::-webkit-scrollbar{width:6px}
   ::-webkit-scrollbar-track{background:#f6f2ec}
   ::-webkit-scrollbar-thumb{background:#ccc0aa;border-radius:3px}
-  @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
-  .fade-up{animation:fadeUp .4s ease both}
 </style>
 <link href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,400;7..72,500;7..72,600;7..72,700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
@@ -374,7 +372,7 @@ function App() {
 
   function Home() {
     return React.createElement("div", null,
-      React.createElement("div", {style:{textAlign:"center",marginBottom:36,paddingTop:16},className:"fade-up"},
+      React.createElement("div", {style:{textAlign:"center",marginBottom:36,paddingTop:16}},
         React.createElement("div", {style:{fontSize:10,fontFamily:ff,letterSpacing:3,textTransform:"uppercase",color:muted,marginBottom:8}}, "COMPLETE COURSE"),
         React.createElement("h1", {style:Object.assign({},S.h1,{fontSize:30})}, "Algebra → Calculus III"),
         React.createElement("p", {style:Object.assign({},S.sub,{marginTop:8})}, "6 courses · 30+ units · 100+ practice problems")
@@ -383,7 +381,7 @@ function App() {
         COURSES.map(function(c,i){
           var totalL = c.lessons.length;
           var doneL = c.lessons.filter(function(_,li){ return (progress[c.id+"-"+li]||0) >= 1; }).length;
-          return React.createElement("div", {key:c.id, className:"fade-up", style:Object.assign({},S.card(c.color,hov===c.id),{position:"relative",overflow:"hidden",animationDelay:i*60+"ms"}), onMouseEnter:function(){setHov(c.id)}, onMouseLeave:function(){setHov(null)}, onClick:function(){goHub(c.id)}},
+          return React.createElement("div", {key:c.id,  style:Object.assign({},S.card(c.color,hov===c.id),{position:"relative",overflow:"hidden",animationDelay:i*60+"ms"}), onMouseEnter:function(){setHov(c.id)}, onMouseLeave:function(){setHov(null)}, onClick:function(){goHub(c.id)}},
             React.createElement("div", {style:S.courseNum(c.color)}, i+1),
             React.createElement("div", {style:{display:"flex",gap:8,alignItems:"center",marginBottom:6}},
               React.createElement("span", {style:S.tag(c.color)}, c.sub)
@@ -414,7 +412,7 @@ function App() {
       course.lessons.map(function(l,i){
         var key = course.id+"-"+i;
         var pct = progress[key] || 0;
-        return React.createElement("div", {key:i, className:"fade-up", style:Object.assign({},S.card(course.color,hov==="l"+i),{marginBottom:8,display:"flex",justifyContent:"space-between",alignItems:"center",animationDelay:i*60+"ms"}), onMouseEnter:function(){setHov("l"+i)}, onMouseLeave:function(){setHov(null)}, onClick:function(){goLesson(i)}},
+        return React.createElement("div", {key:i,  style:Object.assign({},S.card(course.color,hov==="l"+i),{marginBottom:8,display:"flex",justifyContent:"space-between",alignItems:"center",animationDelay:i*60+"ms"}), onMouseEnter:function(){setHov("l"+i)}, onMouseLeave:function(){setHov(null)}, onClick:function(){goLesson(i)}},
           React.createElement("div", {style:{flex:1}},
             React.createElement("div", {style:{display:"flex",alignItems:"center",gap:8}},
               React.createElement("span", {style:{fontFamily:ff,fontSize:12,color:course.color,fontWeight:600}}, (i+1)+"."),
@@ -447,7 +445,7 @@ function App() {
           return React.createElement("button", {key:i, onClick:function(){setSecIdx(i)}, style:S.secBtn(i===secIdx,course.color)}, s.h);
         })
       ),
-      React.createElement("div", {style:Object.assign({},S.box,{borderLeft:"3px solid "+course.color}), className:"fade-up"},
+      React.createElement("div", {style:Object.assign({},S.box,{borderLeft:"3px solid "+course.color})},
         React.createElement("div", {style:{fontFamily:ff,fontSize:14,fontWeight:600,color:course.color,marginBottom:10}}, sec.h),
         React.createElement("div", {style:{fontSize:14.5,lineHeight:1.85,whiteSpace:"pre-wrap",color:"#3a3020"}}, sec.body)
       ),
@@ -478,7 +476,7 @@ function App() {
         React.createElement("div", {style:{position:"absolute",left:0,top:0,height:"100%",width:pct+"%",background:course.color,borderRadius:2,transition:"width .3s"}})
       ),
       React.createElement("div", {style:{fontFamily:ff,fontSize:12,color:muted,marginBottom:8}}, "Problem "+(probIdx+1)+" of "+lesson.problems.length),
-      React.createElement("div", {style:S.box, className:"fade-up"}, p.q),
+      React.createElement("div", {style:S.box}, p.q),
       React.createElement("div", {style:{display:"flex",gap:8,marginBottom:10}},
         React.createElement("input", {ref:inputRef, style:S.input, value:ans, onChange:function(e){setAns(e.target.value)}, onKeyDown:function(e){if(e.key==="Enter"&&!fb)check()}, placeholder:"Your answer…", disabled:!!fb}),
         !fb ? React.createElement("button", {style:S.btn(course.color), onClick:check}, "Check") : React.createElement("button", {style:S.btn("#777"), onClick:next}, probIdx<lesson.problems.length-1?"Next →":"Done")
